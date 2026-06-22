@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Виртуални среди
+.venv/
+venv/
+env/
+
+# Тайни — НИКОГА не commit-вай (FRED ключ е env/repo secret, не файл)
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Логове
+*.log
+
+# NB: data/*.json СЕ commit-ват нарочно — Pages ги сервира, CI ги опреснява.

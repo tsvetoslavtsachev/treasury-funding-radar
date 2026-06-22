@@ -1,0 +1,129 @@
+# Treasury Funding Radar — регистър на източниците (identity guard).
+# INIT-22 S16 · Зона-1 сетиво. Всяка серия е ПИННАТА по ID/mnemonic, не по име/LIKE
+# (WTI splice урокът). Праговете са provisional, калибрират се срещу бектест (gate 3).
+# Anti-illusion: всяко калибрационно число носи [ASSUMPTION] + дата + източник.
+
+schema_version: 1
+generated_for: "treasury-funding-radar v0.1"
+
+# Resolved live 2026-06-22 (CC source-resolution pass, gate 1).
+sources:
+  fred:
+    base: "https://api.stlouisfed.org/fred"          # primary; FRED_API_KEY от env (никога в код)
+    series:
+      # Лампа 1 — банково репо (Adler теза). H.8 weekly NSA level, $млрд.
+      bank_repo:   { id: H8B3092NCBA, freq: W, units: "USD bn", verified: "2026-06-22 FRED search" }
+      # Лампа 2 — Fed plumbing. SRF РЕЗОЛВНАТ през FRED (gate-3): RPONTSYD = overnight
+      # repo (Treasury collateral) = SRF take-up прокси; 31.10.2025=29.4 = епизодът точно.
+      on_rrp:      { id: RRPONTSYD,   freq: D, units: "USD bn", verified: "2026-06-22" }
+      reserves:    { id: WRESBAL,     freq: W, units: "USD mn", verified: "2026-06-22" }
+      rpontsyd:    { id: RPONTSYD,    freq: D, units: "USD bn", verified: "2026-06-22 SRF/repo take-up; 31.10.2025=29.4 ✓ еталон" }
+      # Лампа 3 — цена на парите (IORB страна на SOFR−IORB спреда)
+      iorb:        { id: IORB,        freq: D, units: "pct",    verified: "2026-06-22" }
+      sofr_hist:   { id: SOFR,        freq: D, units: "pct",    verified: "2026-06-22 rolling-устойчивост v1.1" }
+      # Context панел
+      tga:         { id: WTREGEN,     freq: W, units: "USD mn", verified: "2026-06-22" }  # канонично ТУК (не VRM legacy)
+      dgs10:       { id: DGS10,       freq: D, units: "pct",    verified: "2026-06-22" }
+      dgs30:       { id: DGS30,       freq: D, units: "pct",    verified: "2026-06-22" }
+
+  nyfed:
+    base: "https://markets.newyorkfed.org/api"        # no-auth
+    # Лампа 3 — SOFR + персентилно разпределение (1/25/75/99) в ЕДИН вызов
+    sofr: "/rates/secured/sofr/last/1.json"
+    # Лампа 2 — SRF: РЕЗОЛВНАТ през FRED RPONTSYD (gate-3, 2026-06-22), не през този
+    # endpoint. /api/rp/* остава 400, но не ни трябва — FRED дава SRF take-up директно.
+    srf: null
+
+  treasury:
+    base: "https://api.fiscaldata.treasury.gov/services/api/fiscal_service"  # no-auth
+    # Лампа 4 — аукциони (bid-to-cover, primary dealer дял)
+    auctions: "/v1/accounting/od/auctions_query"
+
+  ofr:
+    base: "https://data.financialresearch.gov/v1"     # no-auth STFM
+    # Лампа 5 ос-1 (ОБЕМ) — ливъридж (sponsored DVP repo). Route потвърден.
+    series_timeseries: "/series/timeseries"
+    mnemonics:
+      dvp_total_volume: "REPO-DVP_TV_TOT-P"           # verified live route 2026-06-22
+
+  cftc:
+    # Лампа 5 ос-2 (ПОЗИЦИЯ, v1.1) — CFTC Traders in Financial Futures (TFF),
+    # категория Leveraged Funds, нетна къса в UST фючърси. Socrata, NO-AUTH.
+    # Standalone директен fetch (НЕ кросрепо към data-core — пази Зона-1 принципа).
+    base: "https://publicreporting.cftc.gov"          # Socrata, no-auth
+    dataset: gpe5-46if                                # TFF · Futures Only (2006-06→, n=45364; verified live 2026-06-22)
+    fields:                                           # verified live — догадката в мандата (_all суфикс) СГРЕШИ
+      date: report_date_as_yyyy_mm_dd
+      code: cftc_contract_market_code
+      lev_long: lev_money_positions_long
+      lev_short: lev_money_positions_short
+      open_interest: open_interest_all
+    # UST фючърсен комплекс — ПИННАТ по код (rename/splice защита; WTI/LIKE урокът).
+    # 020604 буквално носи 2 имена под 1 код (Long-Term → Ultra Bond) → пинът ги слива в 1 серия.
+    ust_codes:
+      - "042601"   # 2Y U.S. Treasury Notes — CBOT
+      - "044601"   # 5Y U.S. Treasury Notes — CBOT
+      - "043602"   # 10Y U.S. Treasury Notes — CBOT
+      - "043607"   # Ultra 10Y U.S. T-Notes — CBOT
+      - "020601"   # U.S. Treasury Bonds (30Y) — CBOT
+      - "020604"   # Ultra U.S. Treasury Bonds (бивш Long-Term, същ код) — CBOT
+    # ИЗКЛЮЧЕН 045L2T (DTCC Repo-US Treasury <30YR) — репо-продукт, НЕ basis-trade къса.
+
+# Провизорни прагове (калибрация: бектест gate 3 — 31.10.2025 SRF $29.4bn + септ 2019).
+thresholds:
+  lamp2_srf_repo_usd_bn:               # RPONTSYD = overnight repo / SRF take-up прокси
+    nonqe: { amber: 5.0, red: 20.0 }
+    qe:    { amber: 15.0, red: 30.0 }
+    note: "[CALIBRATED 2026-06-22, RPONTSYD скан 2021-07→2026] usage рядък (p95=0.10,
+      p99=4.76). Еталон 31.10.2025=29.4 (не-QE) → red. QE барът вдигнат (сезонно
+      разкрасяване: юни-30=11, дек-31=31.5). Метод: calibration/lamp2_detail.py."
+  lamp2_reserve_floor_usd_tn:
+    amber: 3.0
+    red: 2.8
+    note: "[CALIBRATED 2026-06-22] абсолютен под (решение Цветослав: текущ режим). Ранно-
+      предупредителен буфер НАД LCLoR (~$2.0трлн Fed 8%-GDP · $2.7трлн Barclays · ample
+      банда $2.0-3.8трлн NY Fed). red 2.8 ≈ горната LCLoR оценка. Източници: Cleveland Fed
+      EC 2025-05 · Fed SFOS сеп-2025 (стабилно) · NY Fed Logan 2019. НЕ пренася към 2019
+      ($1.4трлн = режим); SOFR спред (лампа 3) носи кросрежимната котва."
+  lamp3_sofr_iorb_bp:
+    spread: { amber: 5, red: 15 }     # SOFR−IORB в bp (red = остър единичен ден)
+    tail:   { amber: 25, red: 50 }    # p99−p25 разтваряне в bp
+    rolling: { days: 5, amber: 5, red: 10 }  # v1.1: устойчив 5-дн среден спред → амбер
+    note: "[CALIBRATED 2026-06-22, SOFR/IOER скан 2018→сега n=2051] спред≥0 палеше 24.5%
+      (49% в текущ режим) → затегнат на +5/+15 (база 9.2%/2.5%). Опашка p99−p25 вързана:
+      норма ~10-12bp, p99=35, 2019→400; ≥25/50 (база ~2%/<1%). Статус = max{спред,опашка}.
+      Епизоди: 2019 +315/400 · 2025 +32/20 → red. Rolling-устойчивост = v1.1 (иска SOFR ист.).
+      Метод: calibration/lamp3_detail.py."
+  # Лампа 4 праговете живеят в кода (lamps.py: breadth-based), но методът се документира тук.
+  lamp4_auctions:
+    universe: "купони (Note/Bond), оригинален тенор, recency 45д, z vs roll-10"
+    amber: "≥3 купона btc_z≤−1.5  ИЛИ  ≥2 тенора PD_z≥2.0 при btc_z≤0.5 (v1.1)"
+    red: "≥2 купона btc_z≤−2 (чисто bid-to-cover — непроменено)"
+    note: "[CALIBRATED 2026-06-22, base-rate скан 534 спокойни седмици] купувачка-стачка
+      сензор, НЕ репо-водопровод. Боновете изключени (база 15.9% при z≤−2 = шум). red база
+      2.4% (лови фев-2021, ноем-2018); amber база 1.7%. Зелена при репо-епизоди (2/3 носят).
+      Метод: calibration/lamp4_scan.py.
+      [PD-дял v1.1 2026-06-22] Тенор-релативна PD-дял ос (растящ дял PD = другите се отдръпват),
+      AMBER-ОНЛИ допълнителен път (red остава чисто bid-to-cover). PD-дял силно тенор-зависим
+      (2Y 0.34 vs 20Y 0.14) → z vs roll-10 СЪЩИЯ тенор. Артефакти PD≥0.95 (SOMA add-on) филтр.
+      PD_z≥2.0 база 3.8%; гейт btc_z≤0.5 маха силните аукциони. Хваща фев-2021 7Y (PDz+5.78 ПРИ
+      BTCz−3.46) + ноем-2023 30Y + случаи дето btc подценява (2024-01 20Y, 2019-11 2Y).
+      Метод: calibration/lamp4_pd_detail.py."
+
+  # Лампа 5 ос-2 (ПОЗИЦИЯ, v1.1) — CFTC leveraged-funds нетна къса. Две оси, самостоятелен
+  # unwind път (решение Цветослав 2026-06-22): позицията пали red независимо от обема.
+  lamp5_cftc_leverage:
+    pct_oi_loaded:   0.33   # нетна къса/OI: зареден пълнеж (p90, база 10%) → КОНТЕКСТ "заредена пушка"
+                            # (НЕ amber сам — стои 0.33-0.42 от 2024 → вечен amber, ON RRP уловката)
+    pct_oi_moderate: 0.25   # умерено зареден (p80, база 20%) — гейт за обем-потвърдения red път
+    unwind_window_weeks: 3
+    unwind_floor_pct_oi: 0.15  # precondition: реална нетна къса (чист знаменател; март-2020 pct≈0.22 ✓)
+    unwind_3w_amber: -0.08  # 3-сед %промяна на нетната къса (≈ conditional p5 при зареден)
+    unwind_3w_red:   -0.12  # 3-сед %промяна (март-2020 седмици −0.12..−0.19; conditional база <1%)
+    note: "[CALIBRATED 2026-06-22, CFTC gpe5-46if TFF Leveraged Funds, UST агрегат 6 кода,
+      n=1044 седмици 2006→2026, всички числа verified live в сесията]. Ос = нетна къса
+      (short−long) / open interest. 'Заредено' (pct_oi) е regime-robust — нормализира растежа:
+      2020 връх 3.76млн контракта≈0.22, 2025 рекорд 9.5млн≈0.42. Unwind = 3-сед %СПАД на
+      нетната къса (НЕ Δpct — OI co-move-ва в март-2020 и маскира спада). Март-2020 подпис:
+      pct~0.22 + 3w%chg −0.12..−0.19 → unwind_red (САМОСТОЯТЕЛЕН път; обемът беше ВИСОК
+      z+2.57 → vol оста мълчеше = точно дупката). Метод: calibration/lamp5_detail.py."

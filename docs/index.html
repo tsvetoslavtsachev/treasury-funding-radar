@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Treasury Funding Radar</title>
+<style>
+  :root{
+    --bg:#0e1116; --card:#171c24; --line:#262e3a; --ink:#e7ecf3; --mut:#8b97a8;
+    --green:#2fb56b; --amber:#e0a23a; --red:#e5544b; --null:#566;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:20px 16px 56px}
+  h1{font-size:20px;margin:0 0 2px;letter-spacing:.2px}
+  .sub{color:var(--mut);font-size:13px;margin:0 0 18px}
+  .composite{background:var(--card);border:1px solid var(--line);border-radius:14px;
+       padding:18px;margin-bottom:18px;text-align:center}
+  .score{font-size:46px;font-weight:700;line-height:1}
+  .score small{font-size:18px;color:var(--mut);font-weight:400}
+  .verdict{font-size:17px;margin-top:6px;font-weight:600}
+  .bar{height:8px;border-radius:6px;margin:14px 0 4px;
+       background:linear-gradient(90deg,var(--green),var(--amber) 55%,var(--red))}
+  .bar .pin{position:relative;top:-13px;width:3px;height:18px;background:#fff;
+       border-radius:2px;box-shadow:0 0 0 2px var(--bg)}
+  .lamps{display:flex;flex-direction:column;gap:10px}
+  .lamp{background:var(--card);border:1px solid var(--line);border-left-width:4px;
+       border-radius:12px;padding:13px 14px;display:flex;align-items:flex-start;gap:12px}
+  .dot{width:13px;height:13px;border-radius:50%;margin-top:4px;flex:0 0 auto}
+  .lamp.green{border-left-color:var(--green)} .green .dot{background:var(--green)}
+  .lamp.amber{border-left-color:var(--amber)} .amber .dot{background:var(--amber)}
+  .lamp.red{border-left-color:var(--red)} .red .dot{background:var(--red)}
+  .lamp.null{border-left-color:var(--null)} .null .dot{background:var(--null)}
+  .lamp .nm{font-weight:600}
+  .lamp .meta{color:var(--mut);font-size:13px;margin-top:2px}
+  .lamp .val{margin-left:auto;text-align:right;font-variant-numeric:tabular-nums;
+       white-space:nowrap;font-weight:600}
+  .sec{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.6px;
+       margin:22px 0 10px}
+  .ctx{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .ctx .c{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px}
+  .ctx .k{color:var(--mut);font-size:12px} .ctx .v{font-size:18px;font-weight:600;margin-top:3px}
+  .health{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .pill{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--line);
+       color:var(--mut)}
+  .pill.bad{color:var(--red);border-color:var(--red)}
+  .foot{color:var(--mut);font-size:12px;margin-top:24px;line-height:1.6}
+  .err{color:var(--red);text-align:center;padding:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Treasury Funding Radar</h1>
+  <p class="sub">Ранна линия за funding стрес — близостта и цената на policy отговора на Фед.
+     Отделно от ценовия Kill Switch.</p>
+
+  <div id="app"><p class="sub">Зареждане…</p></div>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script>
+const STATUS_BG = {green:"спокойно", amber:"наблюдение", red:"стрес", null:"няма данни"};
+
+async function load(){
+  try{
+    const [comp, lamps] = await Promise.all([
+      fetch("../data/composite.json",{cache:"no-store"}).then(r=>r.json()),
+      fetch("../data/lamps.json",{cache:"no-store"}).then(r=>r.json()),
+    ]);
+    render(comp, lamps);
+  }catch(e){
+    document.getElementById("app").innerHTML =
+      '<p class="err">Не успях да заредя data/*.json — пусни радара (run) и сервирай от repo root.</p>';
+  }
+}
+
+function detailLine(l){
+  const d = l.detail || {};
+  if(l.id===1) return d.structure_break_13w ? "структурен пробив на 13с дъно" : "структурата държи";
+  if(l.id===2){
+    const srf = d.srf_repo_usd_bn==null ? "SRF: няма данни"
+              : `SRF/repo $${d.srf_repo_usd_bn}млрд${d.srf_quarter_end?" (тримес.)":""}`;
+    const rrp = `ON RRP $${fmt(d.on_rrp_usd_bn)}млрд` + (d.on_rrp_context?" (буфер изчерпан)":"");
+    return `резерви $${d.reserves_usd_tn}трлн · ${srf} · ${rrp}`;
+  }
+  if(l.id===3) return `SOFR−IORB ${sgn(d.sofr_minus_iorb_bp)}bp · опашка p99−p25 ${d.tail_p99_minus_p25_bp}bp`;
+  if(l.id===4){
+    if(d.worst_bid_to_cover_z==null) return "няма скорошни купонни аукциони";
+    let s = `слаби купони ${d.n_weak_z15} (z≤−2: ${d.n_weak_z20}) · най-слаб z ${fmt(d.worst_bid_to_cover_z)} (${d.worst_term||"—"})`;
+    if(d.n_pd_weak) s += ` · PD бекстоп ${d.n_pd_weak}т${d.pd_amber_fired?" ⚠":""}`;
+    return s;
+  }
+  if(l.id===5){
+    const v=d.volume_axis||{}, p=d.position_axis||{};
+    const vol = v.dvp_repo_usd_bn==null ? "обем: няма"
+              : `DVP repo $${fmt(v.dvp_repo_usd_bn)}млрд (z ${fmt(v.volume_z_63d)})`;
+    const pos = p.net_short_pct_oi==null ? "позиция: няма"
+              : `нетна къса ${pct(p.net_short_pct_oi)} от OI`
+                + (p.net_short_3w_chg!=null ? ` (3с ${pct(p.net_short_3w_chg)})` : "");
+    const gun = (d.context||[]).includes("loaded_gun") ? " · ⚠ заредена пушка" : "";
+    return `${vol} · ${pos}${gun}`;
+  }
+  return "";
+}
+function valLine(l){
+  const d=l.detail||{};
+  if(l.id===1) return l.value!=null ? `$${(l.value/1000).toFixed(0)}млрд` : "—";
+  if(l.id===2) return `$${d.reserves_usd_tn??"—"}трлн`;
+  if(l.id===3) return `${d.sofr??"—"}%`;
+  if(l.id===4) return d.worst_bid_to_cover_z!=null ? `z ${fmt(d.worst_bid_to_cover_z)}` : "—";
+  if(l.id===5){
+    const p=d.position_axis||{}, v=d.volume_axis||{};
+    return p.net_short_pct_oi!=null ? pct(p.net_short_pct_oi)
+         : (v.dvp_repo_usd_bn!=null ? `$${fmt(v.dvp_repo_usd_bn)}млрд` : "—");
+  }
+  return "";
+}
+const fmt=v=>v==null?"—":(typeof v==="number"?(Math.abs(v)>=100?v.toFixed(0):v.toFixed(2)):v);
+const sgn=v=>v==null?"—":(v>0?"+"+v:""+v);
+const pct=v=>v==null?"—":(v*100).toFixed(1)+"%";
+
+function render(comp, lamps){
+  const c = comp.composite;
+  const pinPct = c.score==null ? 0 : Math.max(2,Math.min(98, c.score*10));
+  let html = `<div class="composite">
+      <div class="score">${c.score==null?"—":c.score}<small>/10</small></div>
+      <div class="verdict">${c.verdict||""}</div>
+      <div class="bar"><div class="pin" style="margin-left:${pinPct}%"></div></div>
+      <div class="sub" style="margin:2px 0 0">${c.reds.length} червени · ${c.ambers.length} жълти`
+      + (c.null_lamps.length?` · ${c.null_lamps.length} без данни`:``) + `</div>
+    </div><div class="lamps">`;
+
+  for(const l of lamps.lamps){
+    html += `<div class="lamp ${l.status}">
+        <span class="dot"></span>
+        <div><div class="nm">${l.name}</div>
+             <div class="meta">${detailLine(l)}</div></div>
+        <div class="val">${valLine(l)}<div class="meta" style="font-weight:400">${STATUS_BG[l.status]}</div></div>
+      </div>`;
+  }
+  html += `</div>`;
+
+  const ctx = comp.context||{};
+  html += `<div class="sec">Контекст</div><div class="ctx">
+      <div class="c"><div class="k">TGA</div><div class="v">$${ctx.tga_usd_mn?(ctx.tga_usd_mn.value/1000).toFixed(0):"—"}млрд</div></div>
+      <div class="c"><div class="k">10г доходност</div><div class="v">${ctx.dgs10?.value??"—"}%</div></div>
+      <div class="c"><div class="k">30г доходност</div><div class="v">${ctx.dgs30?.value??"—"}%</div></div>
+    </div>`;
+
+  // health pills (principle 2/3 — никога тих провал)
+  const h = (lamps.health&&lamps.health.sources)||{};
+  let pills = "";
+  for(const k in h){
+    const s=h[k]; const bad = s.status==="error"||s.status==="missing";
+    pills += `<span class="pill ${bad?"bad":""}">${k}: ${s.status}${s.as_of?" · "+s.as_of:""}</span>`;
+  }
+  html += `<div class="sec">Свежест на източниците</div><div class="health">${pills}</div>`;
+
+  document.getElementById("app").innerHTML = html;
+  document.getElementById("foot").textContent =
+    `Генериран ${comp.generated_at||""} · схема v${comp.schema_version} · прагове калибрирани 2026-06-22 (бектест: септ-2019 + 31.10.2025).`;
+}
+load();
+</script>
+</body>
+</html>

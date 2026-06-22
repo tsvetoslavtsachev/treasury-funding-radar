@@ -1,0 +1,5 @@
+# Нормализирай всички текстови файлове на LF в репото (CI върви на ubuntu;
+# workflow-ът има bash скриптове — CRLF би сложил \r в тях).
+* text=auto eol=lf
+*.png binary
+*.jpg binary

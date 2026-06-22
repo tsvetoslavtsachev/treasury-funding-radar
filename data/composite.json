@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-22T18:05:22+00:00",
+  "composite": {
+    "score": 0.0,
+    "verdict": "Спокойно финансиране",
+    "n_active": 5,
+    "null_lamps": [],
+    "reds": [],
+    "ambers": []
+  },
+  "context": {
+    "tga_usd_mn": {
+      "value": 880713.0,
+      "as_of": "2026-06-17"
+    },
+    "dgs10": {
+      "value": 4.49,
+      "as_of": "2026-06-17"
+    },
+    "dgs30": {
+      "value": 4.93,
+      "as_of": "2026-06-17"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "any_dead": false,
+  "sources": {
+    "fred:bank_repo": {
+      "source": "fred:bank_repo",
+      "status": "ok",
+      "as_of": "2026-06-10",
+      "error": null
+    },
+    "fred:on_rrp": {
+      "source": "fred:on_rrp",
+      "status": "ok",
+      "as_of": "2026-06-22",
+      "error": null
+    },
+    "fred:reserves": {
+      "source": "fred:reserves",
+      "status": "ok",
+      "as_of": "2026-06-17",
+      "error": null
+    },
+    "fred:rpontsyd": {
+      "source": "fred:rpontsyd",
+      "status": "ok",
+      "as_of": "2026-06-22",
+      "error": null
+    },
+    "fred:iorb": {
+      "source": "fred:iorb",
+      "status": "ok",
+      "as_of": "2026-06-22",
+      "error": null
+    },
+    "fred:sofr_hist": {
+      "source": "fred:sofr_hist",
+      "status": "ok",
+      "as_of": "2026-06-18",
+      "error": null
+    },
+    "fred:tga": {
+      "source": "fred:tga",
+      "status": "ok",
+      "as_of": "2026-06-17",
+      "error": null
+    },
+    "fred:dgs10": {
+      "source": "fred:dgs10",
+      "status": "ok",
+      "as_of": "2026-06-17",
+      "error": null
+    },
+    "fred:dgs30": {
+      "source": "fred:dgs30",
+      "status": "ok",
+      "as_of": "2026-06-17",
+      "error": null
+    },
+    "nyfed:sofr": {
+      "source": "nyfed:sofr",
+      "status": "ok",
+      "as_of": "2026-06-18",
+      "error": null
+    },
+    "treasury:auctions": {
+      "source": "treasury:auctions",
+      "status": "ok",
+      "as_of": "2026-06-22",
+      "error": null
+    },
+    "ofr:dvp": {
+      "source": "ofr:dvp",
+      "status": "ok",
+      "as_of": "2026-06-17",
+      "error": null
+    },
+    "cftc:tff_lev": {
+      "source": "cftc:tff_lev",
+      "status": "ok",
+      "as_of": "2026-06-09",
+      "error": null
+    }
+  }
+}

@@ -1,0 +1,48 @@
+name: Funding Radar Update
+
+on:
+  schedule:
+    # Делнични дни 12:30 UTC — след US отваряне. Опреснява plumbing-а ДНЕВНО и
+    # хваща седмичните серии (H.8 петък · OFR · CFTC TFF петък) в деня на публикуване,
+    # та един дневен цикъл покрива и двата (plumbing + структурни) без раздвоен workflow.
+    - cron: '30 12 * * 1-5'
+  workflow_dispatch:   # ръчно стартиране от GitHub UI
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write   # за commit-back на data/
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Инсталирай зависимости
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Пусни радара
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # repo secret — НИКОГА в код
+          PYTHONPATH: src
+        run: python -m funding_radar.run
+
+      - name: Commit & push data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --staged --quiet; then
+            echo "Няма промени в data/."
+          else
+            git commit -m "chore: funding radar update $(date -u '+%Y-%m-%d %H:%M UTC')"
+            for i in 1 2 3; do
+              git push && break || { echo "push fail (опит $i) — rebase"; git pull --rebase origin main; sleep 5; }
+            done
+          fi

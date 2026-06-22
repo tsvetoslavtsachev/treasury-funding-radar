@@ -1,0 +1,3 @@
+# Treasury Funding Radar — рантайм зависимости.
+# HTTP = stdlib urllib (нула тежки депенденси, CI-light). Само конфигът иска yaml.
+PyYAML>=6.0
