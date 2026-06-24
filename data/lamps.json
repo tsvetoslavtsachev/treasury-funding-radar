@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-06-23T15:29:41+00:00",
+  "generated_at": "2026-06-24T15:16:15+00:00",
   "lamps": [
     {
       "id": 1,
@@ -36,7 +36,7 @@
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 3.925,
+        "on_rrp_usd_bn": 6.484,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -44,35 +44,35 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.61,
-      "as_of": "2026-06-22",
+      "value": 3.62,
+      "as_of": "2026-06-23",
       "detail": {
-        "sofr": 3.61,
+        "sofr": 3.62,
         "iorb": 3.65,
-        "sofr_minus_iorb_bp": -4.0,
+        "sofr_minus_iorb_bp": -3.0,
         "spread_status": "green",
-        "rolling_spread_bp": -1.4,
+        "rolling_spread_bp": -2.8,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.57,
-          "p25": 3.59,
+          "p1": 3.55,
+          "p25": 3.6,
           "p75": 3.67,
-          "p99": 3.69
+          "p99": 3.7
         },
-        "volume_bn": 3073
+        "volume_bn": 3105
       }
     },
     {
       "id": 4,
       "name": "Аукциони (купони)",
       "status": "green",
-      "value": -0.73,
-      "as_of": "2026-06-18",
+      "value": -0.81,
+      "as_of": "2026-06-23",
       "detail": {
-        "worst_bid_to_cover_z": -0.73,
-        "worst_term": "30-Year",
+        "worst_bid_to_cover_z": -0.81,
+        "worst_term": "2-Year",
         "n_weak_z15": 0,
         "n_weak_z20": 0,
         "weak_tenors": [],
@@ -88,14 +88,14 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 3049.7,
+      "value": 2926.8,
       "as_of": "2026-06-16",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 3049.7,
-          "volume_z_63d": 0.86,
+          "dvp_repo_usd_bn": 2926.8,
+          "volume_z_63d": -0.22,
           "status": "green",
-          "as_of": "2026-06-18"
+          "as_of": "2026-06-22"
         },
         "position_axis": {
           "net_short_pct_oi": 0.33,
@@ -128,7 +128,7 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-06-22",
+        "as_of": "2026-06-23",
         "error": null
       },
       "fred:reserves": {
@@ -140,19 +140,19 @@
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-06-22",
+        "as_of": "2026-06-23",
         "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-06-23",
+        "as_of": "2026-06-24",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-06-22",
+        "as_of": "2026-06-23",
         "error": null
       },
       "fred:tga": {
@@ -164,31 +164,31 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-06-18",
+        "as_of": "2026-06-22",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-06-18",
+        "as_of": "2026-06-22",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-06-22",
+        "as_of": "2026-06-23",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-06-22",
+        "as_of": "2026-06-23",
         "error": null
       },
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-06-18",
+        "as_of": "2026-06-22",
         "error": null
       },
       "cftc:tff_lev": {
