@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-06-22T18:54:14+00:00",
+  "generated_at": "2026-06-23T15:29:41+00:00",
   "lamps": [
     {
       "id": 1,
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.62,
-      "as_of": "2026-06-18",
+      "value": 3.61,
+      "as_of": "2026-06-22",
       "detail": {
-        "sofr": 3.62,
+        "sofr": 3.61,
         "iorb": 3.65,
-        "sofr_minus_iorb_bp": -3.0,
+        "sofr_minus_iorb_bp": -4.0,
         "spread_status": "green",
-        "rolling_spread_bp": -0.6,
+        "rolling_spread_bp": -1.4,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.58,
-          "p25": 3.6,
+          "p1": 3.57,
+          "p25": 3.59,
           "p75": 3.67,
-          "p99": 3.7
+          "p99": 3.69
         },
-        "volume_bn": 3148
+        "volume_bn": 3073
       }
     },
     {
@@ -88,28 +88,30 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 2979.0,
-      "as_of": "2026-06-09",
+      "value": 3049.7,
+      "as_of": "2026-06-16",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2979.0,
-          "volume_z_63d": 0.26,
+          "dvp_repo_usd_bn": 3049.7,
+          "volume_z_63d": 0.86,
           "status": "green",
-          "as_of": "2026-06-17"
+          "as_of": "2026-06-18"
         },
         "position_axis": {
-          "net_short_pct_oi": 0.3286,
-          "net_short_3w_chg": -0.034,
-          "loaded": false,
+          "net_short_pct_oi": 0.33,
+          "net_short_3w_chg": 0.028,
+          "loaded": true,
           "moderate": true,
           "unwind_red": false,
           "unwind_amber": false,
-          "as_of": "2026-06-09",
+          "as_of": "2026-06-16",
           "source": "CFTC TFF Leveraged Funds, UST 6-code agg"
         },
         "fired": [],
-        "context": [],
-        "cftc_leveraged_cross": 0.3286,
+        "context": [
+          "loaded_gun"
+        ],
+        "cftc_leveraged_cross": 0.33,
         "note": "две оси: OFR DVP обем + CFTC нетна къса; самостоятелен unwind път"
       }
     }
@@ -144,13 +146,13 @@
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-06-22",
+        "as_of": "2026-06-23",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-06-18",
+        "as_of": "2026-06-22",
         "error": null
       },
       "fred:tga": {
@@ -162,19 +164,19 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-06-17",
+        "as_of": "2026-06-18",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-06-17",
+        "as_of": "2026-06-18",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-06-18",
+        "as_of": "2026-06-22",
         "error": null
       },
       "treasury:auctions": {
@@ -186,13 +188,13 @@
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-06-17",
+        "as_of": "2026-06-18",
         "error": null
       },
       "cftc:tff_lev": {
         "source": "cftc:tff_lev",
         "status": "ok",
-        "as_of": "2026-06-09",
+        "as_of": "2026-06-16",
         "error": null
       }
     }
