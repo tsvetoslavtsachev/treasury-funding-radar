@@ -1,0 +1,40 @@
+name: tests
+
+# Runs the offline core tests (tests/test_core.py -- zero network, pure logic:
+# identity guard, window labels, lamp statuses, composite scaling/null-exclusion).
+# Separate from update.yml so a test flake never blocks the daily data refresh, and
+# path-filtered so the daily data-only bot commits don't trigger it. No secrets needed
+# (the tests touch no fetchers/network). INIT-22 Phase 2 hardening -- the CI was not
+# running pytest before.
+
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/test.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install deps + pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: Run core tests (offline)
+        env:
+          PYTHONPATH: src
+        run: pytest tests/ -q
