@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-06-26T15:08:09+00:00",
+  "generated_at": "2026-06-29T16:15:28+00:00",
   "lamps": [
     {
       "id": 1,
       "name": "Банково репо (Adler)",
       "status": "green",
-      "value": 763323.5,
-      "as_of": "2026-06-10",
+      "value": 756940.9,
+      "as_of": "2026-06-17",
       "percentile": {
-        "percentile": 67.3,
+        "percentile": 61.5,
         "window": "52w",
         "n": 52
       },
@@ -32,11 +32,11 @@
           3.0,
           2.8
         ],
-        "srf_repo_usd_bn": 0.001,
+        "srf_repo_usd_bn": 0.0,
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 5.718,
+        "on_rrp_usd_bn": 6.426,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.64,
-      "as_of": "2026-06-25",
+      "value": 3.62,
+      "as_of": "2026-06-26",
       "detail": {
-        "sofr": 3.64,
+        "sofr": 3.62,
         "iorb": 3.65,
-        "sofr_minus_iorb_bp": -1.0,
+        "sofr_minus_iorb_bp": -3.0,
         "spread_status": "green",
         "rolling_spread_bp": -2.8,
         "rolling_status": "green",
-        "tail_p99_minus_p25_bp": 12.0,
+        "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
           "p1": 3.58,
-          "p25": 3.62,
-          "p75": 3.69,
-          "p99": 3.74
+          "p25": 3.6,
+          "p75": 3.67,
+          "p99": 3.7
         },
-        "volume_bn": 3145
+        "volume_bn": 3171
       }
     },
     {
@@ -88,30 +88,28 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 2949.4,
-      "as_of": "2026-06-16",
+      "value": 3023.8,
+      "as_of": "2026-06-23",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2949.4,
-          "volume_z_63d": -0.06,
+          "dvp_repo_usd_bn": 3023.8,
+          "volume_z_63d": 0.59,
           "status": "green",
-          "as_of": "2026-06-24"
+          "as_of": "2026-06-25"
         },
         "position_axis": {
-          "net_short_pct_oi": 0.33,
-          "net_short_3w_chg": 0.028,
-          "loaded": true,
+          "net_short_pct_oi": 0.3237,
+          "net_short_3w_chg": -0.012,
+          "loaded": false,
           "moderate": true,
           "unwind_red": false,
           "unwind_amber": false,
-          "as_of": "2026-06-16",
+          "as_of": "2026-06-23",
           "source": "CFTC TFF Leveraged Funds, UST 6-code agg"
         },
         "fired": [],
-        "context": [
-          "loaded_gun"
-        ],
-        "cftc_leveraged_cross": 0.33,
+        "context": [],
+        "cftc_leveraged_cross": 0.3237,
         "note": "две оси: OFR DVP обем + CFTC нетна къса; самостоятелен unwind път"
       }
     }
@@ -122,13 +120,13 @@
       "fred:bank_repo": {
         "source": "fred:bank_repo",
         "status": "ok",
-        "as_of": "2026-06-10",
+        "as_of": "2026-06-17",
         "error": null
       },
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-06-25",
+        "as_of": "2026-06-26",
         "error": null
       },
       "fred:reserves": {
@@ -140,19 +138,19 @@
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-06-25",
+        "as_of": "2026-06-26",
         "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-06-26",
+        "as_of": "2026-06-29",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-06-25",
+        "as_of": "2026-06-26",
         "error": null
       },
       "fred:tga": {
@@ -164,19 +162,19 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-06-24",
+        "as_of": "2026-06-25",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-06-24",
+        "as_of": "2026-06-25",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-06-25",
+        "as_of": "2026-06-26",
         "error": null
       },
       "treasury:auctions": {
@@ -188,13 +186,13 @@
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-06-24",
+        "as_of": "2026-06-25",
         "error": null
       },
       "cftc:tff_lev": {
         "source": "cftc:tff_lev",
         "status": "ok",
-        "as_of": "2026-06-16",
+        "as_of": "2026-06-23",
         "error": null
       }
     }
