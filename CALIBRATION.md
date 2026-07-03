@@ -78,7 +78,7 @@ FRED `RPONTSYD` (overnight repo, Treasury collateral) = SRF take-up прокси
 - **v1.1 ✅ всички (2026-06-22):** лампа 3 rolling-устойчивост · лампа 5 CFTC позиционна ос ·
   лампа 4 PD-дял тенор-релативен. (Няма повече v1.1 остатъци.)
 - **CI** (daily+weekly) · **consumer patch** в us-macro-dashboard · **GitHub repo + deploy =
-  gate 4** (чака изрично одобрение на Цветослав; репото още не е git-нато).
+  gate 4 ✅ живо** (публично repo + GitHub Pages + делничен CI, 2026-06-22..24).
   NB: CFTC + TreasuryDirect са no-auth; CI има нужда само от FRED_API_KEY като repo secret.
 
 ## Среда / артефакти

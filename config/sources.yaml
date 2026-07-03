@@ -1,6 +1,6 @@
 # Treasury Funding Radar — регистър на източниците (identity guard).
 # INIT-22 S16 · Зона-1 сетиво. Всяка серия е ПИННАТА по ID/mnemonic, не по име/LIKE
-# (WTI splice урокът). Праговете са provisional, калибрират се срещу бектест (gate 3).
+# (WTI splice урокът). Праговете са калибрирани [CALIBRATED 2026-06-22] — методи и base rates в notes на всеки блок.
 # Anti-illusion: всяко калибрационно число носи [ASSUMPTION] + дата + източник.
 
 schema_version: 1

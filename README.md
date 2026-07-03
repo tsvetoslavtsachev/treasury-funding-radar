@@ -1,6 +1,6 @@
 # Treasury Funding Radar
 
-Зона-1 сетиво (INIT-22 S16). **Funding стрес = ранна (leading) детекция** на принудителния
+Зона-1 сетиво (INIT-22 S16). **Funding стрес = същодневна детекция** на принудителния
 избор на Фед — долар vs облигации. Лампите не предсказват посоката на активите, а
 **близостта и цената на policy отговора**. Отделна предупредителна линия от ценовия VRM
 Kill Switch (lagging); **БЕЗ промяна на KS правилата**.
@@ -54,4 +54,4 @@ PYTHONPATH=src python tests/test_core.py   # офлайн детерминист
 
 ✅ **Лампа 4 PD-дял ос (v1.1)** — тенор-релативен primary-dealer дял, amber-онли допълнителен път (red остава чисто bid-to-cover); хваща дилърски бекстоп (Q4-2023 auction tail). Метод: `calibration/lamp4_pd_detail.py`.
 
-⏳ **Остава (follow-up):** daily/weekly CI (FRED_API_KEY repo secret; CFTC+TreasuryDirect no-auth) · consumer patch в us-macro-dashboard · GitHub repo + deploy (чака одобрение — gate 4; репото още не е git-нато). **Няма повече v1.1 остатъци по лампите.**
+✅ **Deploy (gate 4) — живо от 2026-06-22..24:** публично repo + GitHub Pages светофар + делничен CI (FRED_API_KEY repo secret; CFTC+TreasuryDirect no-auth) + consumer adapter в us-macro-dashboard. **Няма повече v1.1 остатъци по лампите.**
