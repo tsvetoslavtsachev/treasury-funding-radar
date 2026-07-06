@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-07-03T14:37:21+00:00",
+  "generated_at": "2026-07-06T15:58:17+00:00",
   "lamps": [
     {
       "id": 1,
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.66,
-      "as_of": "2026-07-01",
+      "value": 3.64,
+      "as_of": "2026-07-02",
       "detail": {
-        "sofr": 3.66,
+        "sofr": 3.64,
         "iorb": 3.65,
-        "sofr_minus_iorb_bp": 1.0,
+        "sofr_minus_iorb_bp": -1.0,
         "spread_status": "green",
         "rolling_spread_bp": -0.6,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.61,
-          "p25": 3.63,
-          "p75": 3.71,
-          "p99": 3.73
+          "p1": 3.6,
+          "p25": 3.62,
+          "p75": 3.7,
+          "p99": 3.72
         },
-        "volume_bn": 3321
+        "volume_bn": 3208
       }
     },
     {
@@ -150,7 +150,7 @@
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-07-01",
+        "as_of": "2026-07-02",
         "error": null
       },
       "fred:tga": {
@@ -174,13 +174,13 @@
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-07-01",
+        "as_of": "2026-07-02",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-07-02",
+        "as_of": "2026-07-06",
         "error": null
       },
       "ofr:dvp": {
