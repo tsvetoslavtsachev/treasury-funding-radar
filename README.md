@@ -2,15 +2,15 @@
 
 Зона-1 сетиво (INIT-22 S16). **Funding стрес = същодневна детекция** на принудителния
 избор на Фед — долар vs облигации. Лампите не предсказват посоката на активите, а
-**близостта и цената на policy отговора**. Отделна предупредителна линия от ценовия VRM
-Kill Switch (lagging); **БЕЗ промяна на KS правилата**.
+**близостта и цената на policy отговора**. Същодневна (coincident) стрес-детекция,
+отделна от ценовия VRM Kill Switch; **БЕЗ промяна на KS правилата**.
 
 ## 5-те лампи
 
 | # | Лампа | Източник (resolved 2026-06-22) | Сигнал |
 |---|---|---|---|
 | 1 | Банково репо (Adler) | FRED `H8B3092NCBA` (H.8, W) | пробив на структурата от 13-седмични дъна |
-| 2 | Fed plumbing | FRED `WRESBAL` + `RRPONTSYD` (SRF = open thread) | резерви vs под · ON RRP буфер · SRF usage |
+| 2 | Fed plumbing | FRED `WRESBAL` + `RRPONTSYD` (SRF през FRED `RPONTSYD`) | резерви vs под · ON RRP буфер · SRF usage |
 | 3 | Цена на парите | NY Fed `rates/secured/sofr` (no-auth) | SOFR−IORB ≥ 0 устойчиво · опашка p99−p25 |
 | 4 | Аукциони (2 оси) | TreasuryDirect `auctions_query` (no-auth) | bid-to-cover z по тенор (red) · PD-дял z тенор-релативен (amber: дилърски бекстоп = другите се отдръпват) |
 | 5 | Ливъридж (2 оси) | OFR STFM DVP обем + CFTC TFF `gpe5-46if` нетна къса (no-auth) | спад на repo обема ИЛИ разпад на нетната къса от зареден връх = форсиран basis unwind |
