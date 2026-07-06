@@ -130,12 +130,16 @@ def lamp3_sofr(sofr: dict, iorb_obs, thresholds, sofr_hist=None) -> dict:
     iorb = next((o for o in iorb_obs if o["value"] is not None), None)
     iorb_v = iorb["value"] if iorb else None
     spread_bp = round((sofr["rate"] - iorb_v) * 100, 1) if iorb_v is not None else None
-    # опашка: p99 − p25 (горната опашка спрямо тялото), в bp
+    # вътрешнодневна дисперсия: p99 − p25 на разпределението на repo сделките ЗА деня
+    # (cross-sectional разсейване в рамките на деня), в bp. НЕ времева опашка —
+    # p99/p25 са дневни разпределителни персентили от NY Fed refRates, не персентили
+    # на исторически ред. Скача при недостиг (2019 → ~400bp). Ключът остава `tail_*`
+    # заради консуматорите (UI/backtest/tests); това е само етикет-изясняване.
     tail_bp = None
     if sofr["p99"] is not None and sofr["p25"] is not None:
         tail_bp = round((sofr["p99"] - sofr["p25"]) * 100, 1)
     # Калибрация gate-3 (2026-06-22): спред≥0 палеше 24.5% (49% в текущ режим) → затегнат.
-    # Опашка (p99−p25) тих независим детектор (норма ~10-12bp, 2019→400bp).
+    # Вътрешнодневната дисперсия (p99−p25) тих независим детектор (норма ~10-12bp, 2019→400bp).
     th = thresholds["lamp3_sofr_iorb_bp"]
     sp_th, tl_th = th["spread"], th["tail"]
     roll_cfg = th.get("rolling")
@@ -162,7 +166,7 @@ def lamp3_sofr(sofr: dict, iorb_obs, thresholds, sofr_hist=None) -> dict:
     elif "red" in (spread_status, tail_status, rolling_status):
         status = "red"
     else:
-        # амбер: УСТОЙЧИВ спред (rolling) ИЛИ опашка. Без rolling → fallback на единичния спред.
+        # амбер: УСТОЙЧИВ спред (rolling) ИЛИ вътрешнодневна дисперсия. Без rolling → fallback на единичния спред.
         amber_spread = rolling_status == "amber" if rolling_status is not None \
             else spread_status == "amber"
         status = "amber" if (amber_spread or tail_status == "amber") else "green"

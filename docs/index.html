@@ -86,7 +86,7 @@ function detailLine(l){
     const rrp = `ON RRP $${fmt(d.on_rrp_usd_bn)}млрд` + (d.on_rrp_context?" (буфер изчерпан)":"");
     return `резерви $${d.reserves_usd_tn}трлн · ${srf} · ${rrp}`;
   }
-  if(l.id===3) return `SOFR−IORB ${sgn(d.sofr_minus_iorb_bp)}bp · опашка p99−p25 ${d.tail_p99_minus_p25_bp}bp`;
+  if(l.id===3) return `SOFR−IORB ${sgn(d.sofr_minus_iorb_bp)}bp · вътрешнодневна дисперсия p99−p25 ${d.tail_p99_minus_p25_bp}bp`;
   if(l.id===4){
     if(d.worst_bid_to_cover_z==null) return "няма скорошни купонни аукциони";
     let s = `слаби купони ${d.n_weak_z15} (z≤−2: ${d.n_weak_z20}) · най-слаб z ${fmt(d.worst_bid_to_cover_z)} (${d.worst_term||"—"})`;

@@ -11,7 +11,7 @@
 |---|---|---|---|
 | 1 | Банково репо (Adler) | FRED `H8B3092NCBA` (H.8, W) | пробив на структурата от 13-седмични дъна |
 | 2 | Fed plumbing | FRED `WRESBAL` + `RRPONTSYD` (SRF през FRED `RPONTSYD`) | резерви vs под · ON RRP буфер · SRF usage |
-| 3 | Цена на парите | NY Fed `rates/secured/sofr` (no-auth) | SOFR−IORB ≥ 0 устойчиво · опашка p99−p25 |
+| 3 | Цена на парите | NY Fed `rates/secured/sofr` (no-auth) | SOFR−IORB ≥ 0 устойчиво · вътрешнодневна дисперсия p99−p25 (cross-sectional разсейване на repo сделките ЗА деня, не времева опашка) |
 | 4 | Аукциони (2 оси) | TreasuryDirect `auctions_query` (no-auth) | bid-to-cover z по тенор (red) · PD-дял z тенор-релативен (amber: дилърски бекстоп = другите се отдръпват) |
 | 5 | Ливъридж (2 оси) | OFR STFM DVP обем + CFTC TFF `gpe5-46if` нетна къса (no-auth) | спад на repo обема ИЛИ разпад на нетната къса от зареден връх = форсиран basis unwind |
 
