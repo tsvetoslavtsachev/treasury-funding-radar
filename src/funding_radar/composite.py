@@ -2,6 +2,15 @@
 
 null лампи (липсва източник) се ИЗКЛЮЧВАТ от знаменателя и се изброяват явно —
 никога не броим липсващ източник като 0/зелено (principle 3).
+
+Изходни полета (в допълнение към score/verdict/reds/ambers/null_lamps):
+  · low_confidence (Ф1b) — True при ≤2 активни лампи; изходният слой го показва като
+    „(малка извадка активни лампи)". Малък знаменател → 1 red пали 10.0 без уговорка.
+  · clusters (Ф3) — ако L2 И L3 палят red едновременно, маркира „L2+L3 = репо клъстер
+    (един сигнал)": двете гледат СЪЩИЯ overnight repo пазар → 2 гласа за 1 епизод.
+Присъдата НЕ мълчи при amber в „Спокойно" бандата (Ф1a): при ≥1 amber заглавието става
+„Спокойно, с наблюдение по L<id>" (UI легендата казва amber=„наблюдение").
+Числената скала НЕ се пипа — само етикети/полета.
 """
 from __future__ import annotations
 
@@ -31,14 +40,30 @@ def composite(lamps: list[dict]) -> dict:
     if not active:
         return {"score": None, "verdict": "Няма данни", "n_active": 0,
                 "null_lamps": null_lamps,
-                "reds": [], "ambers": []}
+                "reds": [], "ambers": [], "low_confidence": True, "clusters": []}
     raw = sum(s for _, s in active)
     score = round(10.0 * raw / (2 * len(active)), 1)
+    reds = [l["id"] for l, s in active if s == 2]
+    ambers = [l["id"] for l, s in active if s == 1]
+
+    verdict = verdict_for(score)
+    # Ф1a: amber в „Спокойно" бандата (≤1.0) → заглавието да не мълчи; числената скала стои.
+    if score <= _BANDS[0][0] and ambers:
+        verdict = "Спокойно, с наблюдение по " + ", ".join(f"L{i}" for i in ambers)
+
+    # Ф3: L2+L3 = един overnight repo пазар (цена SOFR−IORB + количество резерви/SRF).
+    # При двойно red палене броим 2 гласа за 1 епизод → маркирай като клъстер (само етикет).
+    clusters = []
+    if 2 in reds and 3 in reds:
+        clusters.append("L2+L3 = репо клъстер (един сигнал)")
+
     return {
         "score": score,
-        "verdict": verdict_for(score),
+        "verdict": verdict,
         "n_active": len(active),
         "null_lamps": null_lamps,                       # явно, не скрито
-        "reds": [l["id"] for l, s in active if s == 2],
-        "ambers": [l["id"] for l, s in active if s == 1],
+        "reds": reds,
+        "ambers": ambers,
+        "low_confidence": len(active) <= 2,             # Ф1b: малък знаменател → уговорка
+        "clusters": clusters,                           # Ф3: репо-клъстер етикет
     }

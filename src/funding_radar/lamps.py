@@ -1,7 +1,7 @@
 """5-те лампи. Всяка → {id, name, value, percentile?, threshold, status, as_of, detail}.
 
 status ∈ green|amber|red|null. null = липсва източник (principle 3: НИКОГА тих 0).
-Сигналите следват spec-а; праговете са provisional (config), калибрират се с бектест.
+Сигналите следват spec-а; праговете са калибрирани (config, `[CALIBRATED 2026-06-22]` — бектест срещу реални епизоди).
 """
 from __future__ import annotations
 

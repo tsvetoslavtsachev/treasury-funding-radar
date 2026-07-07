@@ -24,7 +24,7 @@
 3. **No silent zero** — счупен/нерезолвнат източник = `null` + health badge, никога 0.
 4. **Window етикети** — всеки percentile/z носи прозореца си.
 5. **schema_version** в lamps/composite/funding_state.
-6. **Допускания label-нати с дата** — всички прагове в `config/sources.yaml` (provisional).
+6. **Допускания label-нати с дата** — всички прагове в `config/sources.yaml` (калибрирани `[CALIBRATED 2026-06-22]`).
 
 ## Изходи (`data/`)
 

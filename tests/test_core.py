@@ -60,6 +60,38 @@ def test_composite_all_null_is_no_data():
     assert c["score"] is None and c["verdict"] == "Няма данни"
 
 
+def test_composite_amber_in_calm_band_annotates_verdict():
+    # Ф1a: 1 amber + 4 green → score 1.0 („Спокойно"), но заглавието НЕ мълчи
+    c = composite([{"id": 1, "status": "green"}, {"id": 2, "status": "amber"},
+                   {"id": 3, "status": "green"}, {"id": 4, "status": "green"},
+                   {"id": 5, "status": "green"}])
+    assert c["score"] == 1.0 and c["ambers"] == [2]
+    assert c["verdict"] == "Спокойно, с наблюдение по L2"
+
+
+def test_composite_low_confidence_on_small_denominator():
+    # Ф1b: 1 red + 4 null → score 10.0, но low_confidence маркиран
+    c = composite([{"id": 1, "status": "red"}, {"id": 2, "status": "null"},
+                   {"id": 3, "status": "null"}, {"id": 4, "status": "null"},
+                   {"id": 5, "status": "null"}])
+    assert c["score"] == 10.0 and c["n_active"] == 1 and c["low_confidence"] is True
+    # ≥3 активни → достатъчна извадка
+    c2 = composite([{"id": 1, "status": "red"}, {"id": 2, "status": "green"},
+                    {"id": 3, "status": "green"}])
+    assert c2["low_confidence"] is False
+
+
+def test_composite_repo_cluster_label_when_l2_l3_both_red():
+    # Ф3: L2+L3 red едновременно → клъстер етикет (формулата непроменена)
+    c = composite([{"id": 1, "status": "green"}, {"id": 2, "status": "red"},
+                   {"id": 3, "status": "red"}, {"id": 4, "status": "green"},
+                   {"id": 5, "status": "green"}])
+    assert c["clusters"] == ["L2+L3 = репо клъстер (един сигнал)"]
+    # само едната red → без клъстер
+    c2 = composite([{"id": 2, "status": "red"}, {"id": 3, "status": "green"}])
+    assert c2["clusters"] == []
+
+
 def test_lamp_null_when_source_empty():
     assert L.lamp1_bank_repo([])["status"] == "null"
     assert L.lamp3_sofr(None, [], {"lamp3_sofr_iorb_bp": {"amber": 0, "red": 5}})["status"] == "null"

@@ -130,8 +130,10 @@ function render(comp, lamps){
       <div class="verdict">${c.verdict||""}</div>
       <div class="bar"><div class="pin" style="margin-left:${pinPct}%"></div></div>
       <div class="sub" style="margin:2px 0 0">${c.reds.length} червени · ${c.ambers.length} жълти`
-      + (c.null_lamps.length?` · ${c.null_lamps.length} без данни`:``) + `</div>
-    </div><div class="lamps">`;
+      + (c.null_lamps.length?` · ${c.null_lamps.length} без данни`:``) + `</div>`
+      + (c.low_confidence?`<div class="sub" style="margin:6px 0 0;color:var(--amber)">⚠ малка извадка активни лампи — присъдата е с ниска увереност</div>`:``)
+      + (c.clusters&&c.clusters.length?`<div class="sub" style="margin:6px 0 0;color:var(--amber)">⚠ ${c.clusters.join(" · ")}</div>`:``)
+      + `</div><div class="lamps">`;
 
   for(const l of lamps.lamps){
     html += `<div class="lamp ${l.status}">
