@@ -4,13 +4,13 @@
     "fred:bank_repo": {
       "source": "fred:bank_repo",
       "status": "ok",
-      "as_of": "2026-06-24",
+      "as_of": "2026-07-01",
       "error": null
     },
     "fred:on_rrp": {
       "source": "fred:on_rrp",
       "status": "ok",
-      "as_of": "2026-07-09",
+      "as_of": "2026-07-10",
       "error": null
     },
     "fred:reserves": {
@@ -22,19 +22,19 @@
     "fred:rpontsyd": {
       "source": "fred:rpontsyd",
       "status": "ok",
-      "as_of": "2026-07-09",
+      "as_of": "2026-07-10",
       "error": null
     },
     "fred:iorb": {
       "source": "fred:iorb",
       "status": "ok",
-      "as_of": "2026-07-10",
+      "as_of": "2026-07-13",
       "error": null
     },
     "fred:sofr_hist": {
       "source": "fred:sofr_hist",
       "status": "ok",
-      "as_of": "2026-07-09",
+      "as_of": "2026-07-10",
       "error": null
     },
     "fred:tga": {
@@ -46,19 +46,19 @@
     "fred:dgs10": {
       "source": "fred:dgs10",
       "status": "ok",
-      "as_of": "2026-07-08",
+      "as_of": "2026-07-09",
       "error": null
     },
     "fred:dgs30": {
       "source": "fred:dgs30",
       "status": "ok",
-      "as_of": "2026-07-08",
+      "as_of": "2026-07-09",
       "error": null
     },
     "nyfed:sofr": {
       "source": "nyfed:sofr",
       "status": "ok",
-      "as_of": "2026-07-09",
+      "as_of": "2026-07-10",
       "error": null
     },
     "treasury:auctions": {
@@ -70,13 +70,13 @@
     "ofr:dvp": {
       "source": "ofr:dvp",
       "status": "ok",
-      "as_of": "2026-07-08",
+      "as_of": "2026-07-09",
       "error": null
     },
     "cftc:tff_lev": {
       "source": "cftc:tff_lev",
       "status": "ok",
-      "as_of": "2026-06-30",
+      "as_of": "2026-07-07",
       "error": null
     }
   }
