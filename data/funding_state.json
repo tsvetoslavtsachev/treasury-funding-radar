@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "as_of": "2026-07-20T14:36:51+00:00",
-  "composite_score": 0.0,
-  "verdict": "Спокойно финансиране",
+  "as_of": "2026-07-22T14:31:47+00:00",
+  "composite_score": 2.0,
+  "verdict": "Леко напрежение",
   "lamp_status": {
     "1": "green",
     "2": "green",
     "3": "green",
     "4": "green",
-    "5": "green"
+    "5": "red"
   },
   "any_dead_source": false
 }

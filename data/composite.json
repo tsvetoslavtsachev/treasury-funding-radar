@@ -1,12 +1,14 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-20T14:36:51+00:00",
+  "generated_at": "2026-07-22T14:31:47+00:00",
   "composite": {
-    "score": 0.0,
-    "verdict": "Спокойно финансиране",
+    "score": 2.0,
+    "verdict": "Леко напрежение",
     "n_active": 5,
     "null_lamps": [],
-    "reds": [],
+    "reds": [
+      5
+    ],
     "ambers": [],
     "low_confidence": false,
     "clusters": []
@@ -17,12 +19,12 @@
       "as_of": "2026-07-15"
     },
     "dgs10": {
-      "value": 4.57,
-      "as_of": "2026-07-16"
+      "value": 4.6,
+      "as_of": "2026-07-20"
     },
     "dgs30": {
-      "value": 5.09,
-      "as_of": "2026-07-16"
+      "value": 5.11,
+      "as_of": "2026-07-20"
     }
   }
 }
