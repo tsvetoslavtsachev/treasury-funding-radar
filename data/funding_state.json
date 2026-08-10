@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "as_of": "2026-08-07T13:46:01+00:00",
-  "composite_score": 1.0,
-  "verdict": "Спокойно, с наблюдение по L2",
+  "as_of": "2026-08-10T13:51:25+00:00",
+  "composite_score": 2.0,
+  "verdict": "Леко напрежение",
   "lamp_status": {
-    "1": "green",
+    "1": "amber",
     "2": "amber",
     "3": "green",
     "4": "green",
