@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "as_of": "2026-08-10T13:51:25+00:00",
-  "composite_score": 2.0,
+  "as_of": "2026-08-11T13:49:45+00:00",
+  "composite_score": 3.0,
   "verdict": "Леко напрежение",
   "lamp_status": {
     "1": "amber",
     "2": "amber",
     "3": "green",
     "4": "green",
-    "5": "green"
+    "5": "amber"
   },
   "any_dead_source": false
 }
