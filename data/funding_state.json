@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "as_of": "2026-08-18T13:16:08+00:00",
-  "composite_score": 2.0,
-  "verdict": "Леко напрежение",
+  "as_of": "2026-08-19T13:23:07+00:00",
+  "composite_score": 1.0,
+  "verdict": "Спокойно, с наблюдение по L2",
   "lamp_status": {
     "1": "green",
     "2": "amber",
     "3": "green",
     "4": "green",
-    "5": "amber"
+    "5": "green"
   },
   "any_dead_source": false
 }
