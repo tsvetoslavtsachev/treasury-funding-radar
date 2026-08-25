@@ -1,15 +1,14 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-24T13:28:13+00:00",
+  "generated_at": "2026-08-25T13:25:53+00:00",
   "composite": {
-    "score": 2.0,
-    "verdict": "Леко напрежение",
+    "score": 1.0,
+    "verdict": "Спокойно, с наблюдение по L2",
     "n_active": 5,
     "null_lamps": [],
     "reds": [],
     "ambers": [
-      2,
-      5
+      2
     ],
     "low_confidence": false,
     "clusters": []
@@ -20,12 +19,12 @@
       "as_of": "2026-08-19"
     },
     "dgs10": {
-      "value": 4.69,
-      "as_of": "2026-08-20"
+      "value": 4.74,
+      "as_of": "2026-08-21"
     },
     "dgs30": {
-      "value": 5.23,
-      "as_of": "2026-08-20"
+      "value": 5.27,
+      "as_of": "2026-08-21"
     }
   }
 }
