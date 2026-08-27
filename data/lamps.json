@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-08-26T13:31:17+00:00",
+  "generated_at": "2026-08-27T22:26:54+00:00",
   "lamps": [
     {
       "id": 1,
@@ -23,10 +23,10 @@
       "id": 2,
       "name": "Fed plumbing",
       "status": "amber",
-      "value": 2.935,
-      "as_of": "2026-08-19",
+      "value": 2.925,
+      "as_of": "2026-08-26",
       "detail": {
-        "reserves_usd_tn": 2.935,
+        "reserves_usd_tn": 2.925,
         "reserves_status": "amber",
         "floor_amber_red": [
           3.0,
@@ -36,7 +36,7 @@
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 0.405,
+        "on_rrp_usd_bn": 0.456,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -44,35 +44,35 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.66,
-      "as_of": "2026-08-25",
+      "value": 3.64,
+      "as_of": "2026-08-26",
       "detail": {
-        "sofr": 3.66,
+        "sofr": 3.64,
         "iorb": 3.65,
-        "sofr_minus_iorb_bp": 1.0,
+        "sofr_minus_iorb_bp": -1.0,
         "spread_status": "green",
-        "rolling_spread_bp": -0.8,
+        "rolling_spread_bp": -0.4,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
           "p1": 3.6,
-          "p25": 3.64,
-          "p75": 3.71,
-          "p99": 3.74
+          "p25": 3.62,
+          "p75": 3.7,
+          "p99": 3.72
         },
-        "volume_bn": 2916
+        "volume_bn": 2859
       }
     },
     {
       "id": 4,
       "name": "Аукциони (купони)",
       "status": "green",
-      "value": -0.92,
-      "as_of": "2026-08-25",
+      "value": -0.78,
+      "as_of": "2026-08-27",
       "detail": {
-        "worst_bid_to_cover_z": -0.92,
-        "worst_term": "5-Year",
+        "worst_bid_to_cover_z": -0.78,
+        "worst_term": "20-Year",
         "n_weak_z15": 0,
         "n_weak_z20": 0,
         "weak_tenors": [],
@@ -88,14 +88,14 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "amber",
-      "value": 2722.1,
+      "value": 2683.0,
       "as_of": "2026-08-18",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2722.1,
-          "volume_z_63d": -1.48,
+          "dvp_repo_usd_bn": 2683.0,
+          "volume_z_63d": -1.67,
           "status": "amber",
-          "as_of": "2026-08-24"
+          "as_of": "2026-08-26"
         },
         "position_axis": {
           "net_short_pct_oi": 0.3062,
@@ -128,67 +128,67 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-08-25",
+        "as_of": "2026-08-27",
         "error": null
       },
       "fred:reserves": {
         "source": "fred:reserves",
         "status": "ok",
-        "as_of": "2026-08-19",
+        "as_of": "2026-08-26",
         "error": null
       },
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-08-25",
+        "as_of": "2026-08-27",
         "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-08-26",
+        "as_of": "2026-08-28",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-08-25",
+        "as_of": "2026-08-26",
         "error": null
       },
       "fred:tga": {
         "source": "fred:tga",
         "status": "ok",
-        "as_of": "2026-08-19",
+        "as_of": "2026-08-26",
         "error": null
       },
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-08-24",
+        "as_of": "2026-08-26",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-08-24",
+        "as_of": "2026-08-26",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-08-25",
+        "as_of": "2026-08-26",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-08-25",
+        "as_of": "2026-08-27",
         "error": null
       },
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-08-24",
+        "as_of": "2026-08-26",
         "error": null
       },
       "cftc:tff_lev": {
