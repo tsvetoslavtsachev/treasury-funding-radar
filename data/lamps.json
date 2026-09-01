@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-08-31T19:10:23+00:00",
+  "generated_at": "2026-09-01T16:46:59+00:00",
   "lamps": [
     {
       "id": 1,
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.65,
-      "as_of": "2026-08-28",
+      "value": 3.68,
+      "as_of": "2026-08-31",
       "detail": {
-        "sofr": 3.65,
+        "sofr": 3.68,
         "iorb": 3.65,
-        "sofr_minus_iorb_bp": 0.0,
+        "sofr_minus_iorb_bp": 3.0,
         "spread_status": "green",
-        "rolling_spread_bp": -0.2,
+        "rolling_spread_bp": 0.4,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.59,
-          "p25": 3.63,
-          "p75": 3.7,
-          "p99": 3.73
+          "p1": 3.6,
+          "p25": 3.67,
+          "p75": 3.74,
+          "p99": 3.77
         },
-        "volume_bn": 2808
+        "volume_bn": 3056
       }
     },
     {
@@ -146,13 +146,13 @@
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-08-31",
+        "as_of": "2026-09-01",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-08-28",
+        "as_of": "2026-08-31",
         "error": null
       },
       "fred:tga": {
@@ -164,25 +164,25 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-08-27",
+        "as_of": "2026-08-28",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-08-27",
+        "as_of": "2026-08-28",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-08-28",
+        "as_of": "2026-08-31",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-08-31",
+        "as_of": "2026-09-01",
         "error": null
       },
       "ofr:dvp": {
