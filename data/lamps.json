@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-09-01T16:46:59+00:00",
+  "generated_at": "2026-09-02T16:43:10+00:00",
   "lamps": [
     {
       "id": 1,
@@ -32,11 +32,11 @@
           3.0,
           2.8
         ],
-        "srf_repo_usd_bn": 0.002,
+        "srf_repo_usd_bn": 0.005,
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 6.726,
+        "on_rrp_usd_bn": 0.725,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.68,
-      "as_of": "2026-08-31",
+      "value": 3.66,
+      "as_of": "2026-09-01",
       "detail": {
-        "sofr": 3.68,
+        "sofr": 3.66,
         "iorb": 3.65,
-        "sofr_minus_iorb_bp": 3.0,
+        "sofr_minus_iorb_bp": 1.0,
         "spread_status": "green",
         "rolling_spread_bp": 0.4,
         "rolling_status": "green",
-        "tail_p99_minus_p25_bp": 10.0,
+        "tail_p99_minus_p25_bp": 11.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.6,
-          "p25": 3.67,
-          "p75": 3.74,
-          "p99": 3.77
+          "p1": 3.61,
+          "p25": 3.63,
+          "p75": 3.71,
+          "p99": 3.74
         },
-        "volume_bn": 3056
+        "volume_bn": 2912
       }
     },
     {
@@ -87,15 +87,15 @@
     {
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
-      "status": "amber",
-      "value": 2629.6,
+      "status": "green",
+      "value": 2972.8,
       "as_of": "2026-08-25",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2629.6,
-          "volume_z_63d": -1.93,
-          "status": "amber",
-          "as_of": "2026-08-28"
+          "dvp_repo_usd_bn": 2972.8,
+          "volume_z_63d": 0.5,
+          "status": "green",
+          "as_of": "2026-08-31"
         },
         "position_axis": {
           "net_short_pct_oi": 0.2699,
@@ -107,9 +107,7 @@
           "as_of": "2026-08-25",
           "source": "CFTC TFF Leveraged Funds, UST 6-code agg"
         },
-        "fired": [
-          "vol_only_partial"
-        ],
+        "fired": [],
         "context": [],
         "cftc_leveraged_cross": 0.2699,
         "note": "две оси: OFR DVP обем + CFTC нетна къса; самостоятелен unwind път"
@@ -128,7 +126,7 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-08-31",
+        "as_of": "2026-09-01",
         "error": null
       },
       "fred:reserves": {
@@ -140,19 +138,19 @@
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-08-31",
+        "as_of": "2026-09-01",
         "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-09-01",
+        "as_of": "2026-09-02",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-08-31",
+        "as_of": "2026-09-01",
         "error": null
       },
       "fred:tga": {
@@ -164,31 +162,31 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-08-28",
+        "as_of": "2026-08-31",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-08-28",
+        "as_of": "2026-08-31",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-08-31",
+        "as_of": "2026-09-01",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-09-01",
+        "as_of": "2026-09-02",
         "error": null
       },
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-08-28",
+        "as_of": "2026-08-31",
         "error": null
       },
       "cftc:tff_lev": {
