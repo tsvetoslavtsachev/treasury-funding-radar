@@ -34,7 +34,7 @@
     "fred:sofr_hist": {
       "source": "fred:sofr_hist",
       "status": "ok",
-      "as_of": "2026-09-03",
+      "as_of": "2026-09-04",
       "error": null
     },
     "fred:tga": {
@@ -58,13 +58,13 @@
     "nyfed:sofr": {
       "source": "nyfed:sofr",
       "status": "ok",
-      "as_of": "2026-09-03",
+      "as_of": "2026-09-04",
       "error": null
     },
     "treasury:auctions": {
       "source": "treasury:auctions",
       "status": "ok",
-      "as_of": "2026-09-03",
+      "as_of": "2026-09-08",
       "error": null
     },
     "ofr:dvp": {
