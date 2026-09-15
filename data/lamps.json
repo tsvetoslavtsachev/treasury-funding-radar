@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-09-14T18:07:11+00:00",
+  "generated_at": "2026-09-15T17:09:44+00:00",
   "lamps": [
     {
       "id": 1,
@@ -45,33 +45,33 @@
       "name": "Цена на парите (SOFR)",
       "status": "green",
       "value": 3.62,
-      "as_of": "2026-09-11",
+      "as_of": "2026-09-14",
       "detail": {
         "sofr": 3.62,
         "iorb": 3.65,
         "sofr_minus_iorb_bp": -3.0,
         "spread_status": "green",
-        "rolling_spread_bp": -1.6,
+        "rolling_spread_bp": -2.2,
         "rolling_status": "green",
-        "tail_p99_minus_p25_bp": 9.0,
+        "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
           "p1": 3.57,
           "p25": 3.6,
           "p75": 3.67,
-          "p99": 3.69
+          "p99": 3.7
         },
-        "volume_bn": 2867
+        "volume_bn": 2861
       }
     },
     {
       "id": 4,
       "name": "Аукциони (купони)",
       "status": "green",
-      "value": -0.78,
-      "as_of": "2026-09-10",
+      "value": -0.45,
+      "as_of": "2026-09-15",
       "detail": {
-        "worst_bid_to_cover_z": -0.78,
+        "worst_bid_to_cover_z": -0.45,
         "worst_term": "20-Year",
         "n_weak_z15": 0,
         "n_weak_z20": 0,
@@ -88,14 +88,14 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 2798.5,
+      "value": 2756.2,
       "as_of": "2026-09-08",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2798.5,
-          "volume_z_63d": -0.57,
+          "dvp_repo_usd_bn": 2756.2,
+          "volume_z_63d": -0.86,
           "status": "green",
-          "as_of": "2026-09-10"
+          "as_of": "2026-09-11"
         },
         "position_axis": {
           "net_short_pct_oi": 0.3028,
@@ -144,13 +144,13 @@
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-09-14",
+        "as_of": "2026-09-15",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-09-11",
+        "as_of": "2026-09-14",
         "error": null
       },
       "fred:tga": {
@@ -162,31 +162,31 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-09-10",
+        "as_of": "2026-09-11",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-09-10",
+        "as_of": "2026-09-11",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-09-11",
+        "as_of": "2026-09-14",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-09-14",
+        "as_of": "2026-09-15",
         "error": null
       },
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-09-10",
+        "as_of": "2026-09-11",
         "error": null
       },
       "cftc:tff_lev": {
