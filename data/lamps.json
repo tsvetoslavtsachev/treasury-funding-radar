@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-09-24T17:24:14+00:00",
+  "generated_at": "2026-09-25T17:22:58+00:00",
   "lamps": [
     {
       "id": 1,
@@ -22,12 +22,12 @@
     {
       "id": 2,
       "name": "Fed plumbing",
-      "status": "green",
-      "value": 3.014,
-      "as_of": "2026-09-16",
+      "status": "amber",
+      "value": 2.93,
+      "as_of": "2026-09-23",
       "detail": {
-        "reserves_usd_tn": 3.014,
-        "reserves_status": "green",
+        "reserves_usd_tn": 2.93,
+        "reserves_status": "amber",
         "floor_amber_red": [
           3.0,
           2.8
@@ -36,7 +36,7 @@
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 0.461,
+        "on_rrp_usd_bn": 0.63,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.87,
-      "as_of": "2026-09-23",
+      "value": 3.88,
+      "as_of": "2026-09-24",
       "detail": {
-        "sofr": 3.87,
+        "sofr": 3.88,
         "iorb": 3.9,
-        "sofr_minus_iorb_bp": -3.0,
+        "sofr_minus_iorb_bp": -2.0,
         "spread_status": "green",
-        "rolling_spread_bp": -4.2,
+        "rolling_spread_bp": -3.6,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
           "p1": 3.81,
-          "p25": 3.85,
+          "p25": 3.86,
           "p75": 3.92,
-          "p99": 3.95
+          "p99": 3.96
         },
-        "volume_bn": 2946
+        "volume_bn": 2990
       }
     },
     {
@@ -105,14 +105,14 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 2830.9,
+      "value": 2810.2,
       "as_of": "2026-09-15",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2830.9,
-          "volume_z_63d": -0.21,
+          "dvp_repo_usd_bn": 2810.2,
+          "volume_z_63d": -0.35,
           "status": "green",
-          "as_of": "2026-09-22"
+          "as_of": "2026-09-23"
         },
         "position_axis": {
           "net_short_pct_oi": 0.2845,
@@ -143,55 +143,55 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-09-23",
+        "as_of": "2026-09-24",
         "error": null
       },
       "fred:reserves": {
         "source": "fred:reserves",
         "status": "ok",
-        "as_of": "2026-09-16",
+        "as_of": "2026-09-23",
         "error": null
       },
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-09-23",
+        "as_of": "2026-09-24",
         "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-09-24",
+        "as_of": "2026-09-25",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-09-23",
+        "as_of": "2026-09-24",
         "error": null
       },
       "fred:tga": {
         "source": "fred:tga",
         "status": "ok",
-        "as_of": "2026-09-16",
+        "as_of": "2026-09-23",
         "error": null
       },
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-09-22",
+        "as_of": "2026-09-23",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-09-22",
+        "as_of": "2026-09-23",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-09-23",
+        "as_of": "2026-09-24",
         "error": null
       },
       "treasury:auctions": {
@@ -203,7 +203,7 @@
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-09-22",
+        "as_of": "2026-09-23",
         "error": null
       },
       "cftc:tff_lev": {
