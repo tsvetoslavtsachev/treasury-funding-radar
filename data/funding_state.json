@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "as_of": "2026-10-06T18:30:32+00:00",
-  "composite_score": 5.0,
-  "verdict": "Повишено наблюдение",
+  "as_of": "2026-10-07T18:59:49+00:00",
+  "composite_score": 3.0,
+  "verdict": "Леко напрежение",
   "lamp_status": {
     "1": "red",
     "2": "amber",
     "3": "green",
-    "4": "red",
+    "4": "green",
     "5": "green"
   },
   "any_dead_source": false
