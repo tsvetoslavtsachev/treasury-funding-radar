@@ -1,32 +1,30 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-08T18:56:19+00:00",
+  "generated_at": "2026-10-09T18:26:11+00:00",
   "composite": {
-    "score": 3.0,
+    "score": 2.0,
     "verdict": "Леко напрежение",
     "n_active": 5,
     "null_lamps": [],
     "reds": [
       1
     ],
-    "ambers": [
-      2
-    ],
+    "ambers": [],
     "low_confidence": false,
     "clusters": []
   },
   "context": {
     "tga_usd_mn": {
-      "value": 948674.0,
-      "as_of": "2026-09-30"
+      "value": 880253.0,
+      "as_of": "2026-10-07"
     },
     "dgs10": {
-      "value": 5.27,
-      "as_of": "2026-10-06"
+      "value": 5.28,
+      "as_of": "2026-10-07"
     },
     "dgs30": {
-      "value": 5.64,
-      "as_of": "2026-10-06"
+      "value": 5.67,
+      "as_of": "2026-10-07"
     }
   }
 }
