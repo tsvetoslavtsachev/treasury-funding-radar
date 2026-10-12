@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-10-09T18:26:11+00:00",
+  "generated_at": "2026-10-12T21:20:08+00:00",
   "lamps": [
     {
       "id": 1,
       "name": "Банково репо (Adler)",
       "status": "red",
-      "value": 711412.0,
-      "as_of": "2026-09-23",
+      "value": 741099.8,
+      "as_of": "2026-09-30",
       "percentile": {
-        "percentile": 1.9,
+        "percentile": 17.3,
         "window": "52w",
         "n": 52
       },
@@ -97,28 +97,28 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 2850.2,
-      "as_of": "2026-09-29",
+      "value": 2827.2,
+      "as_of": "2026-10-06",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2850.2,
-          "volume_z_63d": 0.14,
+          "dvp_repo_usd_bn": 2827.2,
+          "volume_z_63d": -0.06,
           "status": "green",
-          "as_of": "2026-10-07"
+          "as_of": "2026-10-08"
         },
         "position_axis": {
-          "net_short_pct_oi": 0.2745,
-          "net_short_3w_chg": -0.042,
+          "net_short_pct_oi": 0.283,
+          "net_short_3w_chg": 0.028,
           "loaded": false,
           "moderate": true,
           "unwind_red": false,
           "unwind_amber": false,
-          "as_of": "2026-09-29",
+          "as_of": "2026-10-06",
           "source": "CFTC TFF Leveraged Funds, UST 6-code agg"
         },
         "fired": [],
         "context": [],
-        "cftc_leveraged_cross": 0.2745,
+        "cftc_leveraged_cross": 0.283,
         "note": "две оси: OFR DVP обем + CFTC нетна къса; самостоятелен unwind път"
       }
     }
@@ -129,7 +129,7 @@
       "fred:bank_repo": {
         "source": "fred:bank_repo",
         "status": "ok",
-        "as_of": "2026-09-23",
+        "as_of": "2026-09-30",
         "error": null
       },
       "fred:on_rrp": {
@@ -153,7 +153,7 @@
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-10-09",
+        "as_of": "2026-10-13",
         "error": null
       },
       "fred:sofr_hist": {
@@ -171,13 +171,13 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-10-07",
+        "as_of": "2026-10-08",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-10-07",
+        "as_of": "2026-10-08",
         "error": null
       },
       "nyfed:sofr": {
@@ -195,13 +195,13 @@
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-10-07",
+        "as_of": "2026-10-08",
         "error": null
       },
       "cftc:tff_lev": {
         "source": "cftc:tff_lev",
         "status": "ok",
-        "as_of": "2026-09-29",
+        "as_of": "2026-10-06",
         "error": null
       }
     }
