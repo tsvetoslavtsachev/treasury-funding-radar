@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-10-12T21:20:08+00:00",
+  "generated_at": "2026-10-13T19:23:30+00:00",
   "lamps": [
     {
       "id": 1,
@@ -32,11 +32,11 @@
           3.0,
           2.8
         ],
-        "srf_repo_usd_bn": 0.001,
+        "srf_repo_usd_bn": 0.0,
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 0.3,
+        "on_rrp_usd_bn": 0.275,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -45,23 +45,23 @@
       "name": "Цена на парите (SOFR)",
       "status": "green",
       "value": 3.87,
-      "as_of": "2026-10-08",
+      "as_of": "2026-10-09",
       "detail": {
         "sofr": 3.87,
         "iorb": 3.9,
         "sofr_minus_iorb_bp": -3.0,
         "spread_status": "green",
-        "rolling_spread_bp": -1.6,
+        "rolling_spread_bp": -1.8,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.83,
+          "p1": 3.82,
           "p25": 3.85,
-          "p75": 3.91,
+          "p75": 3.92,
           "p99": 3.95
         },
-        "volume_bn": 2963
+        "volume_bn": 2961
       }
     },
     {
@@ -97,14 +97,14 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 2827.2,
+      "value": 2787.1,
       "as_of": "2026-10-06",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2827.2,
-          "volume_z_63d": -0.06,
+          "dvp_repo_usd_bn": 2787.1,
+          "volume_z_63d": -0.44,
           "status": "green",
-          "as_of": "2026-10-08"
+          "as_of": "2026-10-09"
         },
         "position_axis": {
           "net_short_pct_oi": 0.283,
@@ -135,7 +135,7 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-10-09",
+        "as_of": "2026-10-13",
         "error": null
       },
       "fred:reserves": {
@@ -147,7 +147,7 @@
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-10-09",
+        "as_of": "2026-10-13",
         "error": null
       },
       "fred:iorb": {
@@ -159,7 +159,7 @@
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-10-08",
+        "as_of": "2026-10-09",
         "error": null
       },
       "fred:tga": {
@@ -183,19 +183,19 @@
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-10-08",
+        "as_of": "2026-10-09",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-10-08",
+        "as_of": "2026-10-13",
         "error": null
       },
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-10-08",
+        "as_of": "2026-10-09",
         "error": null
       },
       "cftc:tff_lev": {
