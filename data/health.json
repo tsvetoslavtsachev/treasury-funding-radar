@@ -28,13 +28,13 @@
     "fred:iorb": {
       "source": "fred:iorb",
       "status": "ok",
-      "as_of": "2026-10-13",
+      "as_of": "2026-10-14",
       "error": null
     },
     "fred:sofr_hist": {
       "source": "fred:sofr_hist",
       "status": "ok",
-      "as_of": "2026-10-09",
+      "as_of": "2026-10-13",
       "error": null
     },
     "fred:tga": {
@@ -46,25 +46,25 @@
     "fred:dgs10": {
       "source": "fred:dgs10",
       "status": "ok",
-      "as_of": "2026-10-08",
+      "as_of": "2026-10-09",
       "error": null
     },
     "fred:dgs30": {
       "source": "fred:dgs30",
       "status": "ok",
-      "as_of": "2026-10-08",
+      "as_of": "2026-10-09",
       "error": null
     },
     "nyfed:sofr": {
       "source": "nyfed:sofr",
       "status": "ok",
-      "as_of": "2026-10-09",
+      "as_of": "2026-10-13",
       "error": null
     },
     "treasury:auctions": {
       "source": "treasury:auctions",
       "status": "ok",
-      "as_of": "2026-10-13",
+      "as_of": "2026-10-14",
       "error": null
     },
     "ofr:dvp": {
