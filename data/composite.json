@@ -1,14 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-16T16:48:55+00:00",
+  "generated_at": "2026-10-19T18:46:07+00:00",
   "composite": {
-    "score": 2.0,
-    "verdict": "Леко напрежение",
+    "score": 0.0,
+    "verdict": "Спокойно финансиране",
     "n_active": 5,
     "null_lamps": [],
-    "reds": [
-      1
-    ],
+    "reds": [],
     "ambers": [],
     "low_confidence": false,
     "clusters": []
@@ -19,12 +17,12 @@
       "as_of": "2026-10-14"
     },
     "dgs10": {
-      "value": 5.19,
-      "as_of": "2026-10-14"
+      "value": 5.1,
+      "as_of": "2026-10-15"
     },
     "dgs30": {
-      "value": 5.52,
-      "as_of": "2026-10-14"
+      "value": 5.43,
+      "as_of": "2026-10-15"
     }
   }
 }
