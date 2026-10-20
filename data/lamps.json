@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-10-19T18:46:07+00:00",
+  "generated_at": "2026-10-20T17:23:07+00:00",
   "lamps": [
     {
       "id": 1,
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.88,
-      "as_of": "2026-10-16",
+      "value": 3.87,
+      "as_of": "2026-10-19",
       "detail": {
-        "sofr": 3.88,
+        "sofr": 3.87,
         "iorb": 3.9,
-        "sofr_minus_iorb_bp": -2.0,
+        "sofr_minus_iorb_bp": -3.0,
         "spread_status": "green",
         "rolling_spread_bp": -1.8,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.84,
+          "p1": 3.83,
           "p25": 3.85,
-          "p75": 3.93,
+          "p75": 3.92,
           "p99": 3.95
         },
-        "volume_bn": 2925
+        "volume_bn": 2888
       }
     },
     {
@@ -97,14 +97,14 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 2932.0,
+      "value": 2746.7,
       "as_of": "2026-10-13",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2932.0,
-          "volume_z_63d": 0.95,
+          "dvp_repo_usd_bn": 2746.7,
+          "volume_z_63d": -0.8,
           "status": "green",
-          "as_of": "2026-10-15"
+          "as_of": "2026-10-16"
         },
         "position_axis": {
           "net_short_pct_oi": 0.2852,
@@ -153,13 +153,13 @@
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-10-19",
+        "as_of": "2026-10-20",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-10-16",
+        "as_of": "2026-10-19",
         "error": null
       },
       "fred:tga": {
@@ -171,19 +171,19 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-10-15",
+        "as_of": "2026-10-16",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-10-15",
+        "as_of": "2026-10-16",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-10-16",
+        "as_of": "2026-10-19",
         "error": null
       },
       "treasury:auctions": {
@@ -195,7 +195,7 @@
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-10-15",
+        "as_of": "2026-10-16",
         "error": null
       },
       "cftc:tff_lev": {
