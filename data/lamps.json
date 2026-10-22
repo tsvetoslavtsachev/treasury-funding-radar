@@ -1,37 +1,58 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-10-21T17:26:29+00:00",
+  "generated_at": "2026-10-22T17:24:28+00:00",
   "lamps": [
     {
       "id": 1,
       "name": "Банково репо (Adler)",
-      "status": "null",
-      "value": null,
-      "as_of": null,
-      "detail": "няма данни от H.8"
+      "status": "green",
+      "value": 753378.3,
+      "as_of": "2026-10-07",
+      "percentile": {
+        "percentile": 42.3,
+        "window": "52w",
+        "n": 52
+      },
+      "detail": {
+        "structure_break_13w": false,
+        "prior_13w_trough": 747156.6
+      }
     },
     {
       "id": 2,
       "name": "Fed plumbing",
-      "status": "null",
-      "value": null,
-      "as_of": null,
-      "detail": "няма WRESBAL"
+      "status": "green",
+      "value": 3.022,
+      "as_of": "2026-10-14",
+      "detail": {
+        "reserves_usd_tn": 3.022,
+        "reserves_status": "green",
+        "floor_amber_red": [
+          3.0,
+          2.8
+        ],
+        "srf_repo_usd_bn": 0.0,
+        "srf_status": "green",
+        "srf_quarter_end": false,
+        "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
+        "on_rrp_usd_bn": 0.237,
+        "on_rrp_context": "буферът изчерпан (<$50млрд)"
+      }
     },
     {
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
       "value": 3.88,
-      "as_of": "2026-10-20",
+      "as_of": "2026-10-21",
       "detail": {
         "sofr": 3.88,
-        "iorb": null,
-        "sofr_minus_iorb_bp": null,
-        "spread_status": null,
-        "rolling_spread_bp": null,
-        "rolling_status": null,
+        "iorb": 3.9,
+        "sofr_minus_iorb_bp": -2.0,
+        "spread_status": "green",
+        "rolling_spread_bp": -2.0,
+        "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
@@ -40,7 +61,7 @@
           "p75": 3.93,
           "p99": 3.96
         },
-        "volume_bn": 2925
+        "volume_bn": 2942
       }
     },
     {
@@ -75,15 +96,15 @@
     {
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
-      "status": "amber",
-      "value": 2675.8,
+      "status": "green",
+      "value": 2741.8,
       "as_of": "2026-10-13",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 2675.8,
-          "volume_z_63d": -1.45,
-          "status": "amber",
-          "as_of": "2026-10-19"
+          "dvp_repo_usd_bn": 2741.8,
+          "volume_z_63d": -0.8,
+          "status": "green",
+          "as_of": "2026-10-20"
         },
         "position_axis": {
           "net_short_pct_oi": 0.2852,
@@ -95,9 +116,7 @@
           "as_of": "2026-10-13",
           "source": "CFTC TFF Leveraged Funds, UST 6-code agg"
         },
-        "fired": [
-          "vol_only_partial"
-        ],
+        "fired": [],
         "context": [],
         "cftc_leveraged_cross": 0.2852,
         "note": "две оси: OFR DVP обем + CFTC нетна къса; самостоятелен unwind път"
@@ -105,66 +124,66 @@
     }
   ],
   "health": {
-    "any_dead": true,
+    "any_dead": false,
     "sources": {
       "fred:bank_repo": {
         "source": "fred:bank_repo",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=H8B3092NCBA&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-07",
+        "error": null
       },
       "fred:on_rrp": {
         "source": "fred:on_rrp",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=RRPONTSYD&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-21",
+        "error": null
       },
       "fred:reserves": {
         "source": "fred:reserves",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=WRESBAL&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-14",
+        "error": null
       },
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=RPONTSYD&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-21",
+        "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=IORB&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-22",
+        "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=SOFR&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-21",
+        "error": null
       },
       "fred:tga": {
         "source": "fred:tga",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=WTREGEN&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-14",
+        "error": null
       },
       "fred:dgs10": {
         "source": "fred:dgs10",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-20",
+        "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
-        "status": "error",
-        "as_of": null,
-        "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=DGS30&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+        "status": "ok",
+        "as_of": "2026-10-20",
+        "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-10-20",
+        "as_of": "2026-10-21",
         "error": null
       },
       "treasury:auctions": {
@@ -176,7 +195,7 @@
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-10-19",
+        "as_of": "2026-10-20",
         "error": null
       },
       "cftc:tff_lev": {

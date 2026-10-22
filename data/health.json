@@ -1,64 +1,64 @@
 {
-  "any_dead": true,
+  "any_dead": false,
   "sources": {
     "fred:bank_repo": {
       "source": "fred:bank_repo",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=H8B3092NCBA&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-07",
+      "error": null
     },
     "fred:on_rrp": {
       "source": "fred:on_rrp",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=RRPONTSYD&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-21",
+      "error": null
     },
     "fred:reserves": {
       "source": "fred:reserves",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=WRESBAL&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-14",
+      "error": null
     },
     "fred:rpontsyd": {
       "source": "fred:rpontsyd",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=RPONTSYD&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-21",
+      "error": null
     },
     "fred:iorb": {
       "source": "fred:iorb",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=IORB&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-22",
+      "error": null
     },
     "fred:sofr_hist": {
       "source": "fred:sofr_hist",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=SOFR&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-21",
+      "error": null
     },
     "fred:tga": {
       "source": "fred:tga",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=WTREGEN&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-14",
+      "error": null
     },
     "fred:dgs10": {
       "source": "fred:dgs10",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-20",
+      "error": null
     },
     "fred:dgs30": {
       "source": "fred:dgs30",
-      "status": "error",
-      "as_of": null,
-      "error": "JSONDecodeError @ https://api.stlouisfed.org/fred/series/observations?series_id=DGS30&api_key=9d9c44f466fe433da1eedf36592b27e0&file_type=json&sort_order=desc&limit=80: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "as_of": "2026-10-20",
+      "error": null
     },
     "nyfed:sofr": {
       "source": "nyfed:sofr",
       "status": "ok",
-      "as_of": "2026-10-20",
+      "as_of": "2026-10-21",
       "error": null
     },
     "treasury:auctions": {
@@ -70,7 +70,7 @@
     "ofr:dvp": {
       "source": "ofr:dvp",
       "status": "ok",
-      "as_of": "2026-10-19",
+      "as_of": "2026-10-20",
       "error": null
     },
     "cftc:tff_lev": {
