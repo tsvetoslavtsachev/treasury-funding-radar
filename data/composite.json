@@ -1,28 +1,30 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-22T17:24:28+00:00",
+  "generated_at": "2026-10-23T17:19:19+00:00",
   "composite": {
-    "score": 0.0,
-    "verdict": "Спокойно финансиране",
+    "score": 1.0,
+    "verdict": "Спокойно, с наблюдение по L2",
     "n_active": 5,
     "null_lamps": [],
     "reds": [],
-    "ambers": [],
+    "ambers": [
+      2
+    ],
     "low_confidence": false,
     "clusters": []
   },
   "context": {
     "tga_usd_mn": {
-      "value": 883373.0,
-      "as_of": "2026-10-14"
+      "value": 952002.0,
+      "as_of": "2026-10-21"
     },
     "dgs10": {
-      "value": 5.12,
-      "as_of": "2026-10-20"
+      "value": 5.13,
+      "as_of": "2026-10-21"
     },
     "dgs30": {
       "value": 5.42,
-      "as_of": "2026-10-20"
+      "as_of": "2026-10-21"
     }
   }
 }
