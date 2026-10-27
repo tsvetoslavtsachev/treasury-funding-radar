@@ -10,7 +10,7 @@
     "fred:on_rrp": {
       "source": "fred:on_rrp",
       "status": "ok",
-      "as_of": "2026-10-26",
+      "as_of": "2026-10-27",
       "error": null
     },
     "fred:reserves": {
@@ -22,19 +22,19 @@
     "fred:rpontsyd": {
       "source": "fred:rpontsyd",
       "status": "ok",
-      "as_of": "2026-10-26",
+      "as_of": "2026-10-27",
       "error": null
     },
     "fred:iorb": {
       "source": "fred:iorb",
       "status": "ok",
-      "as_of": "2026-10-26",
+      "as_of": "2026-10-27",
       "error": null
     },
     "fred:sofr_hist": {
       "source": "fred:sofr_hist",
       "status": "ok",
-      "as_of": "2026-10-23",
+      "as_of": "2026-10-26",
       "error": null
     },
     "fred:tga": {
@@ -46,19 +46,19 @@
     "fred:dgs10": {
       "source": "fred:dgs10",
       "status": "ok",
-      "as_of": "2026-10-22",
+      "as_of": "2026-10-23",
       "error": null
     },
     "fred:dgs30": {
       "source": "fred:dgs30",
       "status": "ok",
-      "as_of": "2026-10-22",
+      "as_of": "2026-10-23",
       "error": null
     },
     "nyfed:sofr": {
       "source": "nyfed:sofr",
       "status": "ok",
-      "as_of": "2026-10-23",
+      "as_of": "2026-10-26",
       "error": null
     },
     "treasury:auctions": {
@@ -70,7 +70,7 @@
     "ofr:dvp": {
       "source": "ofr:dvp",
       "status": "ok",
-      "as_of": "2026-10-22",
+      "as_of": "2026-10-23",
       "error": null
     },
     "cftc:tff_lev": {
