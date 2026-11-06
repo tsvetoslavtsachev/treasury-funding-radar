@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-11-05T20:08:48+00:00",
+  "generated_at": "2026-11-06T19:35:25+00:00",
   "lamps": [
     {
       "id": 1,
@@ -23,10 +23,10 @@
       "id": 2,
       "name": "Fed plumbing",
       "status": "amber",
-      "value": 2.894,
-      "as_of": "2026-10-28",
+      "value": 2.93,
+      "as_of": "2026-11-04",
       "detail": {
-        "reserves_usd_tn": 2.894,
+        "reserves_usd_tn": 2.93,
         "reserves_status": "amber",
         "floor_amber_red": [
           3.0,
@@ -36,32 +36,32 @@
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 0.125,
+        "on_rrp_usd_bn": 0.15,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
     {
       "id": 3,
       "name": "Цена на парите (SOFR)",
-      "status": "amber",
-      "value": 3.94,
-      "as_of": "2026-11-04",
+      "status": "green",
+      "value": 3.92,
+      "as_of": "2026-11-05",
       "detail": {
-        "sofr": 3.94,
+        "sofr": 3.92,
         "iorb": 3.9,
-        "sofr_minus_iorb_bp": 4.0,
+        "sofr_minus_iorb_bp": 2.0,
         "spread_status": "green",
-        "rolling_spread_bp": 5.0,
-        "rolling_status": "amber",
-        "tail_p99_minus_p25_bp": 9.0,
+        "rolling_spread_bp": 4.6,
+        "rolling_status": "green",
+        "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.86,
-          "p25": 3.93,
-          "p75": 4.0,
-          "p99": 4.02
+          "p1": 3.85,
+          "p25": 3.9,
+          "p75": 3.97,
+          "p99": 4.0
         },
-        "volume_bn": 3207
+        "volume_bn": 3256
       }
     },
     {
@@ -135,55 +135,55 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-11-05",
+        "as_of": "2026-11-06",
         "error": null
       },
       "fred:reserves": {
         "source": "fred:reserves",
         "status": "ok",
-        "as_of": "2026-10-28",
+        "as_of": "2026-11-04",
         "error": null
       },
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-11-05",
+        "as_of": "2026-11-06",
         "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-11-05",
+        "as_of": "2026-11-06",
         "error": null
       },
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-11-04",
+        "as_of": "2026-11-05",
         "error": null
       },
       "fred:tga": {
         "source": "fred:tga",
         "status": "ok",
-        "as_of": "2026-10-28",
+        "as_of": "2026-11-04",
         "error": null
       },
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-11-03",
+        "as_of": "2026-11-04",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-11-03",
+        "as_of": "2026-11-04",
         "error": null
       },
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-11-04",
+        "as_of": "2026-11-05",
         "error": null
       },
       "treasury:auctions": {
