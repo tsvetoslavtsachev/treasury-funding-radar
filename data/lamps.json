@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-11-09T22:34:34+00:00",
+  "generated_at": "2026-11-10T19:53:20+00:00",
   "lamps": [
     {
       "id": 1,
@@ -32,11 +32,11 @@
           3.0,
           2.8
         ],
-        "srf_repo_usd_bn": 0.003,
+        "srf_repo_usd_bn": 0.002,
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 0.252,
+        "on_rrp_usd_bn": 0.152,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -44,24 +44,24 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.89,
-      "as_of": "2026-11-06",
+      "value": 3.88,
+      "as_of": "2026-11-09",
       "detail": {
-        "sofr": 3.89,
+        "sofr": 3.88,
         "iorb": 3.9,
-        "sofr_minus_iorb_bp": -1.0,
+        "sofr_minus_iorb_bp": -2.0,
         "spread_status": "green",
-        "rolling_spread_bp": 3.4,
+        "rolling_spread_bp": 2.0,
         "rolling_status": "green",
         "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
-          "p1": 3.85,
-          "p25": 3.87,
+          "p1": 3.84,
+          "p25": 3.86,
           "p75": 3.94,
-          "p99": 3.97
+          "p99": 3.96
         },
-        "volume_bn": 3174
+        "volume_bn": 3100
       }
     },
     {
@@ -135,7 +135,7 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-11-09",
+        "as_of": "2026-11-10",
         "error": null
       },
       "fred:reserves": {
@@ -147,7 +147,7 @@
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-11-09",
+        "as_of": "2026-11-10",
         "error": null
       },
       "fred:iorb": {
@@ -159,7 +159,7 @@
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-11-06",
+        "as_of": "2026-11-09",
         "error": null
       },
       "fred:tga": {
@@ -183,7 +183,7 @@
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-11-06",
+        "as_of": "2026-11-09",
         "error": null
       },
       "treasury:auctions": {
