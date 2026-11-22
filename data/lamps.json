@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-11-20T20:35:44+00:00",
+  "generated_at": "2026-11-22T20:32:10+00:00",
   "lamps": [
     {
       "id": 1,
       "name": "Банково репо (Adler)",
       "status": "green",
-      "value": 833078.2,
-      "as_of": "2026-11-04",
+      "value": 817679.9,
+      "as_of": "2026-11-11",
       "percentile": {
-        "percentile": 100.0,
+        "percentile": 98.1,
         "window": "52w",
         "n": 52
       },
       "detail": {
         "structure_break_13w": false,
-        "prior_13w_trough": 733639.2
+        "prior_13w_trough": 733640.2
       }
     },
     {
@@ -129,7 +129,7 @@
       "fred:bank_repo": {
         "source": "fred:bank_repo",
         "status": "ok",
-        "as_of": "2026-11-04",
+        "as_of": "2026-11-11",
         "error": null
       },
       "fred:on_rrp": {
@@ -153,7 +153,7 @@
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-11-20",
+        "as_of": "2026-11-23",
         "error": null
       },
       "fred:sofr_hist": {
@@ -171,13 +171,13 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-11-18",
+        "as_of": "2026-11-19",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-11-18",
+        "as_of": "2026-11-19",
         "error": null
       },
       "nyfed:sofr": {
