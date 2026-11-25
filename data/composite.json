@@ -1,11 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-24T22:38:35+00:00",
+  "generated_at": "2026-11-25T18:11:55+00:00",
   "composite": {
-    "score": 1.0,
-    "verdict": "Спокойно, с наблюдение по L2",
-    "n_active": 5,
-    "null_lamps": [],
+    "score": 1.2,
+    "verdict": "Леко напрежение",
+    "n_active": 4,
+    "null_lamps": [
+      4
+    ],
     "reds": [],
     "ambers": [
       2

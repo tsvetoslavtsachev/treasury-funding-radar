@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-11-24T22:38:35+00:00",
+  "generated_at": "2026-11-25T18:11:55+00:00",
   "lamps": [
     {
       "id": 1,
@@ -44,30 +44,30 @@
       "id": 3,
       "name": "Цена на парите (SOFR)",
       "status": "green",
-      "value": 3.92,
-      "as_of": "2026-11-23",
+      "value": 3.94,
+      "as_of": "2026-11-24",
       "detail": {
-        "sofr": 3.92,
+        "sofr": 3.94,
         "iorb": 3.9,
-        "sofr_minus_iorb_bp": 2.0,
+        "sofr_minus_iorb_bp": 4.0,
         "spread_status": "green",
-        "rolling_spread_bp": 1.4,
+        "rolling_spread_bp": 1.8,
         "rolling_status": "green",
-        "tail_p99_minus_p25_bp": 9.0,
+        "tail_p99_minus_p25_bp": 10.0,
         "tail_status": "green",
         "percentiles": {
           "p1": 3.87,
-          "p25": 3.9,
-          "p75": 3.97,
-          "p99": 3.99
+          "p25": 3.92,
+          "p75": 3.99,
+          "p99": 4.02
         },
-        "volume_bn": 3173
+        "volume_bn": 3158
       }
     },
     {
       "id": 4,
       "name": "Аукциони (купони)",
-      "status": "green",
+      "status": "null",
       "value": -2.49,
       "as_of": "2026-10-08",
       "detail": {
@@ -91,6 +91,12 @@
         "n_coupon_tenors": 7,
         "rule": "red ≥2×btc_z≤−2 · amber ≥3×btc_z≤−1.5 ИЛИ ≥2 тенора PD_z≥2.0 при btc_z≤0.5",
         "method": "купони/оригинален тенор/recency45д/z-vs-roll10; PD-дял тенор-релативен (v1.1 amber-онли, артефакти PD≥0.95 филтр.)"
+      },
+      "as_of_kind": "последният купонен аукцион с резултат",
+      "stale": {
+        "age_days": 48,
+        "limit_days": 45,
+        "reason": "няма купонен аукцион с резултат след 2026-10-08 (48 дни към 2026-11-25); източникът не е публикувал"
       }
     },
     {
@@ -159,7 +165,7 @@
       "fred:sofr_hist": {
         "source": "fred:sofr_hist",
         "status": "ok",
-        "as_of": "2026-11-23",
+        "as_of": "2026-11-24",
         "error": null
       },
       "fred:tga": {
@@ -183,13 +189,13 @@
       "nyfed:sofr": {
         "source": "nyfed:sofr",
         "status": "ok",
-        "as_of": "2026-11-23",
+        "as_of": "2026-11-24",
         "error": null
       },
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-10-15",
+        "as_of": "2026-10-08",
         "error": null
       },
       "ofr:dvp": {
