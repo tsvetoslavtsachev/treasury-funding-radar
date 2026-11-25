@@ -66,19 +66,41 @@ def fetch_nyfed_sofr(*, base: str, path: str) -> dict:
 # --------------------------------------------------------------------------- #
 # TreasuryDirect — аукциони (лампа 4), no-auth
 # --------------------------------------------------------------------------- #
-def fetch_auctions(*, base: str, path: str, since: str, page_size: int = 300) -> list[dict]:
-    """Settled аукциони от `since` (bid_to_cover не-null), нормализирани."""
-    q = urllib.parse.urlencode({
-        "fields": "auction_date,security_type,security_term,original_security_term,"
-                  "bid_to_cover_ratio,primary_dealer_accepted,total_accepted",
-        "filter": f"auction_date:gte:{since}",
-        "sort": "-auction_date",
-        "page[size]": page_size,
-    }, safe=":")
-    doc = http_get_json(f"{base}{path}?{q}")
-    assert_keys(doc, ["data"], "Treasury:auctions")
+def fetch_auctions(*, base: str, path: str, since: str, page_size: int = 1000,
+                   max_pages: int = 50) -> list[dict]:
+    """Settled аукциони от `since` (bid_to_cover не-null), нормализирани.
+
+    ПРОЛЕТР2 (25.11.2026): тегли ЦЕЛИЯ прозорец, страница по страница по `meta.total-pages`.
+    Преди беше една страница от 300 реда: тя стигаше само ~9 месеца назад от 400-те дни и
+    лампа 4 сравняваше рядко продаваните тенори с 7 вместо с 10 предишни аукциона.
+    Пазачът: ако събраните редове не са `meta.total-count`, е FetchError, не тихо рязане."""
+    rows: list[dict] = []
+    total = None
+    page = 1
+    while True:
+        q = urllib.parse.urlencode({
+            "fields": "auction_date,security_type,security_term,original_security_term,"
+                      "bid_to_cover_ratio,primary_dealer_accepted,total_accepted",
+            "filter": f"auction_date:gte:{since}",
+            "sort": "-auction_date",
+            "page[size]": page_size,
+            "page[number]": page,
+        }, safe=":")
+        doc = http_get_json(f"{base}{path}?{q}")
+        assert_keys(doc, ["data"], "Treasury:auctions")
+        rows.extend(doc["data"])
+        meta = doc.get("meta") or {}
+        total = meta.get("total-count", total)
+        pages = meta.get("total-pages") or 1
+        if page >= pages or not doc["data"]:
+            break
+        page += 1
+        if page > max_pages:
+            raise FetchError(f"Treasury:auctions над {max_pages} страници (total-count={total})")
+    if total is not None and len(rows) != int(total):
+        raise FetchError(f"Treasury:auctions отрязано: {len(rows)} реда от total-count={total}")
     out = []
-    for d in doc["data"]:
+    for d in rows:
         btc = d.get("bid_to_cover_ratio")
         if btc in (None, "null", ""):
             continue
