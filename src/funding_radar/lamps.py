@@ -208,7 +208,37 @@ _L4_PD_BTC_GATE = 0.5    # PD-пътят брои само ако btc НЕ е с
 _L4_PD_BREADTH = 2       # ≥2 тенора → широк дилърски бекстоп = buyer-strike → amber
 
 
-def lamp4_auctions(auctions: list[dict]) -> dict:
+# ПРОЛЕТР2 (25.11.2026): една дата за аукционите навсякъде (lamps.json, health.json,
+# историята) с едно име. Давността се мери спрямо деня на пуска (`today`), не спрямо
+# собствените данни: иначе лампата стои зелена върху стари аукциони.
+L4_AS_OF_KIND = "последният купонен аукцион с резултат"
+
+
+def auction_ref_date(auctions: list[dict]) -> str | None:
+    """Датата на лампа 4: най-новият купонен (Note/Bond) аукцион с bid-to-cover."""
+    ds = [a["auction_date"] for a in auctions
+          if a.get("security_type") in _COUPON_TYPES
+          and a.get("bid_to_cover") is not None and a.get("auction_date")]
+    return max(ds) if ds else None
+
+
+def lamp4_auctions(auctions: list[dict], today: str | None = None) -> dict:
+    """today = денят на пуска (ISO). Ако датата на лампата е по-стара от
+    _L4_RECENCY_DAYS спрямо today, лампата е сива (null) с причина; сметката остава в detail."""
+    out = _lamp4_core(auctions)
+    out["as_of_kind"] = L4_AS_OF_KIND
+    ref = out["as_of"]
+    if today and ref and out["status"] != "null":
+        age = (_dt.date.fromisoformat(today) - _dt.date.fromisoformat(ref)).days
+        if age > _L4_RECENCY_DAYS:
+            out["status"] = "null"
+            out["stale"] = {"age_days": age, "limit_days": _L4_RECENCY_DAYS,
+                            "reason": f"няма купонен аукцион с резултат след {ref} "
+                                      f"({age} дни към {today}); източникът не е публикувал"}
+    return out
+
+
+def _lamp4_core(auctions: list[dict]) -> dict:
     coupons = [a for a in auctions
                if a.get("security_type") in _COUPON_TYPES
                and a.get("bid_to_cover") is not None and a.get("auction_date")]
@@ -216,7 +246,7 @@ def lamp4_auctions(auctions: list[dict]) -> dict:
         return _lamp(4, "Аукциони (купони)", "null", None,
                      detail="няма купонни аукциони (Note/Bond)")
     # детерминистична референтна дата = най-новият купонен аукцион (без datetime.now)
-    ref = max(a["auction_date"] for a in coupons)
+    ref = auction_ref_date(coupons)
     recency_lo = (_dt.date.fromisoformat(ref)
                   - _dt.timedelta(days=_L4_RECENCY_DAYS)).isoformat()
     by_tenor: dict[str, list[dict]] = {}
