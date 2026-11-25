@@ -18,6 +18,7 @@ from .common import FetchError, HealthBook
 from .composite import composite
 from . import lamps as L
 from . import sources as S
+from . import history
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 CONFIG = ROOT / "config" / "sources.yaml"
@@ -68,7 +69,8 @@ def build(cfg: dict) -> dict:
     since = (_dt.date.today() - _dt.timedelta(days=400)).isoformat()
     try:
         auctions = S.fetch_auctions(base=tre["base"], path=tre["auctions"], since=since)
-        health.ok("treasury:auctions", auctions[0]["auction_date"] if auctions else None)
+        # една дата с лампа 4 (ПРОЛЕТР2): последният купонен аукцион с резултат
+        health.ok("treasury:auctions", L.auction_ref_date(auctions))
     except FetchError as e:
         auctions = []
         health.error("treasury:auctions", str(e))
@@ -99,7 +101,7 @@ def build(cfg: dict) -> dict:
         L.lamp1_bank_repo(bank_repo),
         L.lamp2_plumbing(reserves, rrp, srf, th),
         L.lamp3_sofr(sofr, iorb, th, sofr_hist=sofr_hist),
-        L.lamp4_auctions(auctions),
+        L.lamp4_auctions(auctions, today=_dt.date.today().isoformat()),
         L.lamp5_leverage(ofr_obs, cftc_obs, th),
     ]
     comp = composite(lamp_list)
@@ -152,9 +154,12 @@ def main() -> int:
         "any_dead_source": result["health"]["any_dead"],
     })
     _write("health.json", result["health"])
+    # историята на лампите по дни (ПРОЛЕТР2): един ред на лампа на ден, денят е UTC денят на пуска
+    n_hist = history.update(DATA / "lamps_history.csv", result["lamps"],
+                            result["generated_at"][:10], history.LIVE)
     c = result["composite"]
     print(f"composite {c['score']} — {c['verdict']} "
-          f"(reds={c['reds']} ambers={c['ambers']} null={c['null_lamps']})")
+          f"(reds={c['reds']} ambers={c['ambers']} null={c['null_lamps']}) · история {n_hist} реда")
     return 0
 
 

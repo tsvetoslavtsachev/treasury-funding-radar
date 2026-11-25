@@ -311,6 +311,35 @@ def _run() -> int:
     return 1 if failed else 0
 
 
+# --------------------------------------------------------------------------- #
+# Лампа 4: една дата и давност спрямо деня на пуска (ПРОЛЕТР2, 25.11.2026)
+# --------------------------------------------------------------------------- #
+def _l4_fresh_set():
+    return (_l4_tenor("10-Year", _BH, _PH, 2.50, 0.20)
+            + _l4_tenor("5-Year", _BH, _PH, 2.50, 0.20))
+
+
+def test_lamp4_stale_is_grey_with_reason():
+    out = L.lamp4_auctions(_l4_fresh_set(), today="2026-08-20")   # 69 дни след 12.06
+    assert out["status"] == "null"
+    assert out["as_of"] == "2026-06-12"
+    assert out["stale"]["age_days"] == 69 and "2026-06-12" in out["stale"]["reason"]
+    assert out["as_of_kind"] == L.L4_AS_OF_KIND
+
+
+def test_lamp4_fresh_keeps_status():
+    out = L.lamp4_auctions(_l4_fresh_set(), today="2026-06-20")
+    assert out["status"] == "green" and "stale" not in out
+
+
+def test_lamp4_ref_date_ignores_bills_and_unresulted():
+    aucs = _l4_fresh_set() + [
+        {"security_type": "Bill", "auction_date": "2026-06-30", "bid_to_cover": 2.9},
+        {"security_type": "Note", "auction_date": "2026-07-02", "bid_to_cover": None}]
+    assert L.auction_ref_date(aucs) == "2026-06-12"
+    assert L.lamp4_auctions(aucs)["as_of"] == "2026-06-12"
+
+
 if __name__ == "__main__":
     for s in (sys.stdout, sys.stderr):
         try:
