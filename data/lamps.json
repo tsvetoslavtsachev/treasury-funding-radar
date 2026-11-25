@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-11-25T18:22:19+00:00",
+  "generated_at": "2026-11-25T21:52:33+00:00",
   "lamps": [
     {
       "id": 1,
@@ -32,11 +32,11 @@
           3.0,
           2.8
         ],
-        "srf_repo_usd_bn": 0.002,
+        "srf_repo_usd_bn": 0.0,
         "srf_status": "green",
         "srf_quarter_end": false,
         "srf_note": "RPONTSYD (overnight repo, Treasury collateral) = SRF take-up прокси",
-        "on_rrp_usd_bn": 0.301,
+        "on_rrp_usd_bn": 0.3,
         "on_rrp_context": "буферът изчерпан (<$50млрд)"
       }
     },
@@ -112,14 +112,14 @@
       "id": 5,
       "name": "Ливъридж (repo+CFTC)",
       "status": "green",
-      "value": 3054.3,
+      "value": 3098.6,
       "as_of": "2026-11-17",
       "detail": {
         "volume_axis": {
-          "dvp_repo_usd_bn": 3054.3,
-          "volume_z_63d": 0.88,
+          "dvp_repo_usd_bn": 3098.6,
+          "volume_z_63d": 1.12,
           "status": "green",
-          "as_of": "2026-11-23"
+          "as_of": "2026-11-24"
         },
         "position_axis": {
           "net_short_pct_oi": 0.3006,
@@ -150,7 +150,7 @@
       "fred:on_rrp": {
         "source": "fred:on_rrp",
         "status": "ok",
-        "as_of": "2026-11-24",
+        "as_of": "2026-11-25",
         "error": null
       },
       "fred:reserves": {
@@ -162,13 +162,13 @@
       "fred:rpontsyd": {
         "source": "fred:rpontsyd",
         "status": "ok",
-        "as_of": "2026-11-24",
+        "as_of": "2026-11-25",
         "error": null
       },
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-11-25",
+        "as_of": "2026-11-27",
         "error": null
       },
       "fred:sofr_hist": {
@@ -186,13 +186,13 @@
       "fred:dgs10": {
         "source": "fred:dgs10",
         "status": "ok",
-        "as_of": "2026-11-23",
+        "as_of": "2026-11-24",
         "error": null
       },
       "fred:dgs30": {
         "source": "fred:dgs30",
         "status": "ok",
-        "as_of": "2026-11-23",
+        "as_of": "2026-11-24",
         "error": null
       },
       "nyfed:sofr": {
@@ -210,7 +210,7 @@
       "ofr:dvp": {
         "source": "ofr:dvp",
         "status": "ok",
-        "as_of": "2026-11-23",
+        "as_of": "2026-11-24",
         "error": null
       },
       "cftc:tff_lev": {
