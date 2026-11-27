@@ -29,8 +29,7 @@ COUPON = {"Note", "Bond"}          # купони = истинският demand 
 ROLL = 10                          # rolling прозорец: последни N същотенорни аукциона
 
 print("Тегля аукциони…", file=sys.stderr)
-A = S.fetch_auctions(base="https://api.fiscaldata.treasury.gov/services/api/fiscal_service",
-                     path="/v1/accounting/od/auctions_query", since="2015-01-01", page_size=10000)
+A = S.fetch_auctions_fiscaldata(since="2015-01-01", page_size=10000)  # калибровката е от Fiscal Data
 print(f"n={len(A)}", file=sys.stderr)
 
 
