@@ -211,13 +211,34 @@ _L4_PD_BREADTH = 2       # ≥2 тенора → широк дилърски б�
 # ПРОЛЕТР2 (25.11.2026): една дата за аукционите навсякъде (lamps.json, health.json,
 # историята) с едно име. Давността се мери спрямо деня на пуска (`today`), не спрямо
 # собствените данни: иначе лампата стои зелена върху стари аукциони.
-L4_AS_OF_KIND = "последният купонен аукцион с резултат"
+L4_AS_OF_KIND = "последният номинален купонен аукцион с резултат"
+
+
+def _l4_nominal(a: dict) -> bool:
+    """Номинален купон (не TIPS, не FRN). Ред без вид (стари данни, тестове) е номинален."""
+    return (a.get("kind") or "nominal") == "nominal"
+
+
+def _l4_group(a: dict) -> str:
+    """Групата, в която аукционът се сравнява: оригиналният срок, а за TIPS и FRN и видът.
+
+    ПРОЛЕТБ2 (27.11.2026, решение Ц. „да, направи го така“): цветът се решава само от
+    номиналните купони; TIPS и FRN се смятат в свои групи и стоят в детайла само за сведение.
+    Защо: носят същите имена на срокове, а купувачите и нивата им са други (2021-2026,
+    медиани: покритие FRN 3,01 срещу Note 2,51; дял на дилърите FRN 32,6% срещу 13,1%).
+    Смесени с номиналните, сменяха цвета в 70 от 913 седмици (червеното от 25.09.2026 беше
+    10-годишен TIPS) и заглушаваха лято 2013, декември 2018 и ноември 2023. В свои групи с
+    глас утрояваха фалшивите червени (6,6% от спокойните седмици срещу 3,9% само с
+    номиналните), защото историята им е къса. Метод: calibration/lamp4_split_scan.py."""
+    term = a.get("orig_term") or a.get("term")
+    kind = a.get("kind") or "nominal"
+    return term if kind == "nominal" else f"{term} {kind}"
 
 
 def auction_ref_date(auctions: list[dict]) -> str | None:
-    """Датата на лампа 4: най-новият купонен (Note/Bond) аукцион с bid-to-cover."""
+    """Датата на лампа 4: най-новият номинален купонен (Note/Bond) аукцион с bid-to-cover."""
     ds = [a["auction_date"] for a in auctions
-          if a.get("security_type") in _COUPON_TYPES
+          if a.get("security_type") in _COUPON_TYPES and _l4_nominal(a)
           and a.get("bid_to_cover") is not None and a.get("auction_date")]
     return max(ds) if ds else None
 
@@ -242,19 +263,21 @@ def _lamp4_core(auctions: list[dict]) -> dict:
     coupons = [a for a in auctions
                if a.get("security_type") in _COUPON_TYPES
                and a.get("bid_to_cover") is not None and a.get("auction_date")]
-    if not coupons:
+    if not any(_l4_nominal(a) for a in coupons):
         return _lamp(4, "Аукциони (купони)", "null", None,
-                     detail="няма купонни аукциони (Note/Bond)")
-    # детерминистична референтна дата = най-новият купонен аукцион (без datetime.now)
+                     detail="няма номинални купонни аукциони (Note/Bond)")
+    # детерминистична референтна дата = най-новият номинален купонен аукцион (без datetime.now)
     ref = auction_ref_date(coupons)
     recency_lo = (_dt.date.fromisoformat(ref)
                   - _dt.timedelta(days=_L4_RECENCY_DAYS)).isoformat()
     by_tenor: dict[str, list[dict]] = {}
     for a in coupons:
-        by_tenor.setdefault(a.get("orig_term") or a["term"], []).append(a)
+        by_tenor.setdefault(_l4_group(a), []).append(a)
     evaluated = []
     for tenor, rows in by_tenor.items():
-        rows.sort(key=lambda a: a["auction_date"], reverse=True)
+        # два аукциона от една група в един ден (напр. 10-годишните на 08 и 09.10.2008): редът
+        # е по CUSIP, не по реда на източника, иначе на ръба на roll-10 влиза различен аукцион
+        rows.sort(key=lambda a: (a["auction_date"], a.get("cusip") or ""), reverse=True)
         latest = rows[0]
         if latest["auction_date"] < recency_lo:       # няма скорошен аукцион → не брой
             continue
@@ -276,7 +299,16 @@ def _lamp4_core(auctions: list[dict]) -> dict:
         evaluated.append({"tenor": tenor, "bid_to_cover": latest["bid_to_cover"],
                           "z": z, "auction_date": latest["auction_date"],
                           "primary_dealer_share": pd_share,
-                          "pd_share_z": pd_z})
+                          "pd_share_z": pd_z, "_nominal": _l4_nominal(latest)})
+    # ПРОЛЕТБ2: TIPS и FRN само за сведение; цветът е от номиналните
+    context = sorted(({k: v for k, v in e.items() if k != "_nominal"}
+                      for e in evaluated if not e["_nominal"]), key=lambda e: e["z"])
+    for e in context:
+        e["weak_z15"] = e["z"] <= -1.5
+        e["pd_weak"] = (e["pd_share_z"] is not None and e["pd_share_z"] >= _L4_PD_Z_AMBER
+                        and e["z"] <= _L4_PD_BTC_GATE)
+    evaluated = [{k: v for k, v in e.items() if k != "_nominal"}
+                 for e in evaluated if e["_nominal"]]
     if not evaluated:
         return _lamp(4, "Аукциони (купони)", "null", ref,
                      detail="няма скорошни купонни аукциони с достатъчно история")
@@ -304,9 +336,13 @@ def _lamp4_core(auctions: list[dict]) -> dict:
                          "pd_weak_tenors": pd_weak,               # v1.1
                          "pd_amber_fired": pd_amber_fired,        # v1.1 (PD сам вдигна amber)
                          "n_coupon_tenors": len(evaluated),
+                         # ПРОЛЕТБ2 (27.11.2026): TIPS и FRN в свои групи, без глас за цвета
+                         "context_tenors": context,
+                         "context_note": "TIPS и FRN: само за сведение, не местят цвета",
                          "rule": "red ≥2×btc_z≤−2 · amber ≥3×btc_z≤−1.5 ИЛИ "
                                  "≥2 тенора PD_z≥2.0 при btc_z≤0.5",
-                         "method": "купони/оригинален тенор/recency45д/z-vs-roll10; PD-дял "
+                         "method": "номинални купони/оригинален тенор/recency45д/z-vs-roll10 "
+                                   "(TIPS и FRN отделно, за сведение); PD-дял "
                                    "тенор-релативен (v1.1 amber-онли, артефакти PD≥0.95 филтр.)"})
 
 

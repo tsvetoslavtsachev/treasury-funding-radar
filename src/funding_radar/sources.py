@@ -83,8 +83,20 @@ TD_AUCTION_TYPES = ("Note", "Bond", "TIPS", "FRN")
 _TD_COUPON_SECURITY_TYPES = {"Note", "Bond"}
 _TD_MIN_OFFERING = 1e9      # оферти по 25 млн. (21.06.2019, 02.12.2021) са технически редове
 _TD_REQUIRED = ("cusip", "securityType", "securityTerm", "treasuryAuctionResultsXmlFileName",
+                "inflationProtected", "floatingRate",
                 "bidToCoverRatio", "primaryDealersCompetitiveParAwarded",
                 "grandTotalParAwarded", "offeringAmount")
+
+
+def security_kind(inflation_protected, floating_rate) -> str:
+    """Видът на купонната книжа: "TIPS", "FRN" или "nominal" (флаговете Yes/No на източника).
+
+    ПРОЛЕТБ2 (27.11.2026): лампа 4 сравнява всеки вид само със себе си (lamps._l4_group)."""
+    if str(inflation_protected or "").strip() == "Yes":
+        return "TIPS"
+    if str(floating_rate or "").strip() == "Yes":
+        return "FRN"
+    return "nominal"
 
 
 def td_num(v) -> float | None:
@@ -136,6 +148,7 @@ def parse_td_auctions(rows: list[dict], since: str) -> list[dict]:
             "auction_date": d,
             "cusip": x.get("cusip"),
             "security_type": st,
+            "kind": security_kind(x.get("inflationProtected"), x.get("floatingRate")),
             "term": x.get("securityTerm"),
             "orig_term": x.get("originalSecurityTerm") or x.get("securityTerm"),
             "bid_to_cover": btc,
@@ -187,7 +200,8 @@ def fetch_auctions_fiscaldata(*, since: str, base: str = FISCALDATA_BASE,
     while True:
         q = urllib.parse.urlencode({
             "fields": "auction_date,cusip,security_type,security_term,original_security_term,"
-                      "bid_to_cover_ratio,primary_dealer_accepted,total_accepted",
+                      "bid_to_cover_ratio,primary_dealer_accepted,total_accepted,"
+                      "inflation_index_security,floating_rate",
             "filter": f"auction_date:gte:{since}",
             "sort": "-auction_date",
             "page[size]": page_size,
@@ -222,6 +236,7 @@ def fetch_auctions_fiscaldata(*, since: str, base: str = FISCALDATA_BASE,
             "auction_date": d.get("auction_date"),
             "cusip": d.get("cusip"),
             "security_type": d.get("security_type"),
+            "kind": security_kind(d.get("inflation_index_security"), d.get("floating_rate")),
             "term": d.get("security_term"),
             "orig_term": d.get("original_security_term"),  # събира reopening-ите в тенора
             "bid_to_cover": float(btc),

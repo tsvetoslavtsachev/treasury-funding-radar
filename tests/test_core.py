@@ -297,6 +297,47 @@ def test_lamp4_pd_does_not_regress_btc_red():
     assert out["status"] == "red"
 
 
+
+# --------------------------------------------------------------------------- #
+# ПРОЛЕТБ2 (27.11.2026): TIPS и FRN в свои групи, само за сведение; цветът е от номиналните
+# --------------------------------------------------------------------------- #
+def _kind(rows, kind, term=None):
+    return [{**a, "kind": kind, **({"orig_term": term, "term": term} if term else {})} for a in rows]
+
+
+def test_lamp4_tips_frn_do_not_vote():
+    # TIPS и FRN се сриват (z≤−2), номиналните са спокойни → зелено, сривът е в детайла
+    nominal = _l4_tenor("5-Year", _BH, _PH, 2.50, 0.20) + _l4_tenor("7-Year", _BH, _PH, 2.50, 0.20)
+    tips = _kind(_l4_tenor("10-Year", _BH, _PH, 2.20, 0.20), "TIPS")
+    frn = _kind(_l4_tenor("2-Year", _BH, _PH, 2.20, 0.40), "FRN")
+    out = L.lamp4_auctions(nominal + tips + frn)
+    assert out["status"] == "green" and out["detail"]["n_coupon_tenors"] == 2
+    ctx = {e["tenor"]: e for e in out["detail"]["context_tenors"]}
+    assert set(ctx) == {"10-Year TIPS", "2-Year FRN"}
+    assert ctx["10-Year TIPS"]["weak_z15"] and ctx["10-Year TIPS"]["z"] <= -2
+    assert ctx["2-Year FRN"]["pd_weak"]
+
+
+def test_lamp4_tips_do_not_mix_into_nominal_tenor():
+    # 10-годишен TIPS с ниско покритие след спокойни номинални 10-годишни: преди смесването
+    # го правеше „последния“ 10-годишен (z≤−2); сега номиналният 10-годишен остава непокътнат
+    nominal = _l4_tenor("10-Year", _BH, _PH, 2.50, 0.20)
+    tips = _kind([_l4_auc("10-Year", "2026-06-20", 2.20, 0.20)], "TIPS")
+    out = L.lamp4_auctions(nominal + tips)
+    assert out["detail"]["worst_term"] == "10-Year" and abs(out["value"]) < 1
+    assert out["as_of"] == "2026-06-12"                  # датата е от номиналните
+
+
+def test_lamp4_only_tips_is_null():
+    out = L.lamp4_auctions(_kind(_l4_tenor("10-Year", _BH, _PH, 2.50, 0.20), "TIPS"))
+    assert out["status"] == "null"
+
+
+def test_lamp4_rows_without_kind_are_nominal():
+    aucs = _l4_tenor("5-Year", _BH, _PH, 2.20, 0.20) + _l4_tenor("7-Year", _BH, _PH, 2.20, 0.20)
+    assert L.lamp4_auctions(aucs)["status"] == "red"
+    assert L.lamp4_auctions(_kind(aucs, "nominal"))["status"] == "red"
+
 def _run() -> int:
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
