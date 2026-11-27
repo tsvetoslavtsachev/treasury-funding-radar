@@ -28,7 +28,7 @@ from funding_radar.common import http_get_json  # noqa: E402
 
 LO = "2008-05-01"
 TD_BASE, TD_PATH = "https://www.treasurydirect.gov/TA_WS", "/securities/search"
-FIELDS = ("security_type", "term", "orig_term", "bid_to_cover", "primary_dealer_share")
+FIELDS = ("security_type", "kind", "term", "orig_term", "bid_to_cover", "primary_dealer_share")
 
 
 def parse_with_min_offering(raw: list[dict], floor: float) -> list[dict]:

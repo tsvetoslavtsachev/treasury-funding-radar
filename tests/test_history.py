@@ -122,7 +122,9 @@ def _td(date, term="7-Year", btc="2.50", pd="4000000000", grand="50000000000",
             "securityTerm": term, "originalSecurityTerm": orig if orig is not None else term,
             "treasuryAuctionResultsXmlFileName": f"R_{date.replace('-', '')}_{n}.xml" if date else "",
             "bidToCoverRatio": btc, "primaryDealersCompetitiveParAwarded": pd,
-            "grandTotalParAwarded": grand, "offeringAmount": offering}
+            "grandTotalParAwarded": grand, "offeringAmount": offering,
+            "inflationProtected": "Yes" if t == "TIPS" else "No",
+            "floatingRate": "Yes" if t == "FRN" else "No"}
 
 
 def test_td_date_from_results_file_name():
@@ -149,8 +151,9 @@ def test_td_parse_fields_match_fiscaldata_shape():
     out = S.parse_td_auctions(rows, since="2025-01-01")
     assert [a["auction_date"] for a in out] == ["2026-11-25", "2026-11-24", "2026-11-19"]
     a = out[0]
-    assert set(a) == {"auction_date", "cusip", "security_type", "term", "orig_term",
+    assert set(a) == {"auction_date", "cusip", "security_type", "kind", "term", "orig_term",
                       "bid_to_cover", "primary_dealer_share"}
+    assert [x["kind"] for x in out] == ["nominal", "FRN", "TIPS"]
     assert a["bid_to_cover"] == 2.5 and a["primary_dealer_share"] == 0.08
 
 

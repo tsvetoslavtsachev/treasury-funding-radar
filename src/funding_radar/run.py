@@ -70,7 +70,7 @@ def build(cfg: dict) -> dict:
     try:
         auctions = S.fetch_auctions(base=tre["base"], path=tre["auctions"], since=since,
                                     types=tre.get("auction_types", S.TD_AUCTION_TYPES))
-        # една дата с лампа 4 (ПРОЛЕТР2): последният купонен аукцион с резултат
+        # една дата с лампа 4 (ПРОЛЕТР2): последният номинален купонен аукцион с резултат
         health.ok("treasury:auctions", L.auction_ref_date(auctions))
     except FetchError as e:
         auctions = []

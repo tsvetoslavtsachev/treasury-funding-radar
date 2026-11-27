@@ -101,7 +101,11 @@ thresholds:
       Метод: calibration/lamp3_detail.py."
   # Лампа 4 праговете живеят в кода (lamps.py: breadth-based), но методът се документира тук.
   lamp4_auctions:
-    universe: "купони (Note/Bond), оригинален тенор, recency 45д, z vs roll-10"
+    universe: "номинални купони (Note/Bond без TIPS и FRN), оригинален тенор, recency 45д,
+      z vs roll-10. TIPS и FRN: свои групи, само за сведение (detail.context_tenors), без глас
+      за цвета (ПРОЛЕТБ2, 27.11.2026, решение Ц.; метод calibration/lamp4_split_scan.py:
+      червено в спокойни седмици 2016-2026 3,9% срещу 2,2% смесено и 6,6% с глас; хваща
+      лято 2013, 12.2018, 03.2020, 11.2023, които смесеното пропускаше)"
     amber: "≥3 купона btc_z≤−1.5  ИЛИ  ≥2 тенора PD_z≥2.0 при btc_z≤0.5 (v1.1)"
     red: "≥2 купона btc_z≤−2 (чисто bid-to-cover — непроменено)"
     note: "[CALIBRATED 2026-06-22, base-rate скан 534 спокойни седмици] купувачка-стачка
