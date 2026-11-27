@@ -1,6 +1,7 @@
 """Историята на лампите и дописването назад (ПРОЛЕТР2, 25.11.2026). Без мрежа."""
 from __future__ import annotations
 
+import datetime as _dt
 import pathlib
 import sys
 
@@ -66,6 +67,7 @@ def test_unit_change_between_vintages():
 
 # --------------------------------------------------------------------------- #
 # Аукционите: целият прозорец, страница по страница, и пазач срещу рязане (25.11.2026)
+# (старият четец на Fiscal Data; от 27.11.2026 остава за калибровката и сверката)
 # --------------------------------------------------------------------------- #
 from funding_radar import sources as S          # noqa: E402
 from funding_radar.common import FetchError     # noqa: E402
@@ -94,15 +96,112 @@ def _fake_api(monkeypatch, n, page_size, total=None, drop_last_page=False):
 
 def test_auctions_fetch_all_pages(monkeypatch):
     seen = _fake_api(monkeypatch, n=250, page_size=100)
-    out = S.fetch_auctions(base="b", path="/p", since="2025-01-01", page_size=100)
+    out = S.fetch_auctions_fiscaldata(base="b", path="/p", since="2025-01-01", page_size=100)
     assert len(out) == 250 and seen == [1, 2, 3]
 
 
 def test_auctions_truncation_is_loud(monkeypatch):
     _fake_api(monkeypatch, n=250, page_size=100, drop_last_page=True)
     try:
-        S.fetch_auctions(base="b", path="/p", since="2025-01-01", page_size=100)
+        S.fetch_auctions_fiscaldata(base="b", path="/p", since="2025-01-01", page_size=100)
     except FetchError as e:
         assert "отрязано" in str(e)
     else:
         raise AssertionError("рязането мина тихо")
+
+
+# --------------------------------------------------------------------------- #
+# ПРОЛЕТБ2 (27.11.2026): лампа 4 от TreasuryDirect, същите полета и числа като Fiscal Data
+# --------------------------------------------------------------------------- #
+from funding_radar import lamps as L            # noqa: E402
+
+
+def _td(date, term="7-Year", btc="2.50", pd="4000000000", grand="50000000000",
+        st="Note", t="Note", cusip=None, offering="44000000000", orig=None, n=3):
+    return {"cusip": cusip or f"C{date}{term}", "securityType": st, "type": t,
+            "securityTerm": term, "originalSecurityTerm": orig if orig is not None else term,
+            "treasuryAuctionResultsXmlFileName": f"R_{date.replace('-', '')}_{n}.xml" if date else "",
+            "bidToCoverRatio": btc, "primaryDealersCompetitiveParAwarded": pd,
+            "grandTotalParAwarded": grand, "offeringAmount": offering}
+
+
+def test_td_date_from_results_file_name():
+    assert S.td_auction_date(_td("2026-11-25")) == "2026-11-25"
+    assert S.td_auction_date(_td(None)) is None                     # обявен, още без резултат
+    try:
+        S.td_auction_date({"treasuryAuctionResultsXmlFileName": "R_20261399_1.xml"})
+    except FetchError:
+        pass
+    else:
+        raise AssertionError("невалидна дата в името мина тихо")
+
+
+def test_td_parse_fields_match_fiscaldata_shape():
+    rows = [_td("2026-11-25", pd="4000000000", grand="50000000000"),
+            _td("2026-11-24", term="2-Year", st="Note", t="FRN"),            # FRN е Note, както във FD
+            _td("2026-11-19", term="10-Year", st="Note", t="TIPS"),          # TIPS също
+            _td("2026-11-20", term="17-Week", st="Bill", t="Bill"),          # боновете не
+            _td(None),                                                       # без резултат
+            _td("2026-11-18", btc=""),                                       # празно = липса
+            _td("2026-11-17", btc="null"),
+            _td("2019-06-21", offering="25000000"),                          # технически ред
+            _td("2024-01-02")]                                               # преди since
+    out = S.parse_td_auctions(rows, since="2025-01-01")
+    assert [a["auction_date"] for a in out] == ["2026-11-25", "2026-11-24", "2026-11-19"]
+    a = out[0]
+    assert set(a) == {"auction_date", "cusip", "security_type", "term", "orig_term",
+                      "bid_to_cover", "primary_dealer_share"}
+    assert a["bid_to_cover"] == 2.5 and a["primary_dealer_share"] == 0.08
+
+
+def test_td_missing_pd_is_none_not_zero():
+    out = S.parse_td_auctions([_td("2026-11-25", pd=""), _td("2026-11-24", grand="0")],
+                              since="2026-01-01")
+    assert [a["primary_dealer_share"] for a in out] == [None, None]
+
+
+def test_td_reopening_keeps_original_term():
+    out = S.parse_td_auctions([_td("2026-11-12", term="9-Year 10-Month", orig="10-Year"),
+                               _td("2026-11-13", term="10-Year", orig="")], since="2026-01-01")
+    assert {a["orig_term"] for a in out} == {"10-Year"}
+
+
+def test_td_fetch_asks_every_type_and_guards(monkeypatch):
+    seen = []
+
+    def fake(url, timeout=None):
+        seen.append(url)
+        return [_td("2026-11-25", cusip=url[-4:])]
+    monkeypatch.setattr(S, "http_get_json", fake)
+    out = S.fetch_auctions(base="https://x/TA_WS", path="/securities/search", since="2026-01-01")
+    assert [u.split("type=")[1] for u in seen] == ["Note", "Bond", "TIPS", "FRN"]
+    assert all("format=json" in u for u in seen) and len(out) == 4
+
+    monkeypatch.setattr(S, "http_get_json", lambda url, timeout=None: [])
+    try:
+        S.fetch_auctions(base="b", path="/p", since="2026-01-01")
+    except FetchError as e:
+        assert "празен" in str(e)
+    else:
+        raise AssertionError("празен отговор мина тихо")
+
+    broken = _td("2026-11-25"); del broken["grandTotalParAwarded"]
+    monkeypatch.setattr(S, "http_get_json", lambda url, timeout=None: [broken])
+    try:
+        S.fetch_auctions(base="b", path="/p", since="2026-01-01")
+    except FetchError:
+        pass
+    else:
+        raise AssertionError("смяната на полетата мина тихо")
+
+
+def test_td_rows_light_lamp4():
+    """Пресни TD редове (последен 25.11) → лампата има цвят на 27.11.2026, не е сива."""
+    rows = []
+    for term in ("2-Year", "5-Year", "7-Year"):
+        for i in range(11):
+            d = (_dt.date(2026, 11, 25) - _dt.timedelta(days=30 * i)).isoformat()
+            rows.append(_td(d, term=term, btc=f"{2.5 + 0.01 * (i % 3):.2f}"))
+    out = L.lamp4_auctions(S.parse_td_auctions(rows, since="2025-10-23"), today="2026-11-27")
+    assert out["as_of"] == "2026-11-25" and out["status"] in ("green", "amber", "red")
+    assert "stale" not in out

@@ -1,11 +1,13 @@
 """Fetchers за резолвнатите източници. Всеки нормализира + записва health.
 
 Resolved live 2026-06-22 (gate 1):
-  FRED (key от env) · NY Fed SOFR (no-auth) · TreasuryDirect auctions (no-auth) ·
+  FRED (key от env) · NY Fed SOFR (no-auth) · аукциони (no-auth; от 27.11.2026
+  TreasuryDirect securities/search, преди Fiscal Data auctions_query) ·
   OFR STFM (no-auth). NY Fed SRF repo-ops endpoint = open thread (вж sources.yaml).
 """
 from __future__ import annotations
 
+import datetime as _dt
 import os
 import urllib.parse
 
@@ -65,9 +67,114 @@ def fetch_nyfed_sofr(*, base: str, path: str) -> dict:
 
 # --------------------------------------------------------------------------- #
 # TreasuryDirect — аукциони (лампа 4), no-auth
+#
+# ПРОЛЕТБ2 (27.11.2026): лампа 4 тегли от TreasuryDirect `TA_WS/securities/search`.
+# Fiscal Data `auctions_query` няма резултати след 15.10.2026 (19-22.10 идват с "null" като
+# текст), затова лампата беше сива. Правилото не е пипано: TD се нормализира в СЪЩИТЕ полета
+# и със СЪЩИТЕ числа, които радарът смяташе от Fiscal Data (сверка 1754 от 1754 купонни
+# аукциона, 05.2008-15.10.2026, calibration/lamp4_td_parity.py):
+#   * универсумът е securityType Note/Bond, както във Fiscal Data, тоест с TIPS и FRN
+#     (TD ги дава под type=TIPS и type=FRN, не под type=Note/Bond);
+#   * PD-делът е primaryDealersCompetitiveParAwarded / grandTotalParAwarded, тоест
+#     primary_dealer_accepted / total_accepted на Fiscal Data (до цифра), не към сбора на
+#     трите конкурентни групи (той е comp_accepted и дава друго число).
 # --------------------------------------------------------------------------- #
-def fetch_auctions(*, base: str, path: str, since: str, page_size: int = 1000,
-                   max_pages: int = 50) -> list[dict]:
+TD_AUCTION_TYPES = ("Note", "Bond", "TIPS", "FRN")
+_TD_COUPON_SECURITY_TYPES = {"Note", "Bond"}
+_TD_MIN_OFFERING = 1e9      # оферти по 25 млн. (21.06.2019, 02.12.2021) са технически редове
+_TD_REQUIRED = ("cusip", "securityType", "securityTerm", "treasuryAuctionResultsXmlFileName",
+                "bidToCoverRatio", "primaryDealersCompetitiveParAwarded",
+                "grandTotalParAwarded", "offeringAmount")
+
+
+def td_num(v) -> float | None:
+    """Клетка на TD → float | None. Празно, "null" и None са липса, не нула."""
+    if v is None:
+        return None
+    s = str(v).strip()
+    if s == "" or s.lower() == "null":
+        return None
+    try:
+        return float(s)
+    except ValueError as e:
+        raise FetchError(f"TreasuryDirect: не е число {v!r}") from e
+
+
+def td_auction_date(x: dict) -> str | None:
+    """Денят на аукциона от името на файла с резултатите R_YYYYMMDD_n.xml; None = още без резултат."""
+    f = (x.get("treasuryAuctionResultsXmlFileName") or "").strip()
+    if not f.startswith("R_") or len(f) < 10:
+        return None
+    try:
+        return _dt.date(int(f[2:6]), int(f[6:8]), int(f[8:10])).isoformat()
+    except ValueError as e:
+        raise FetchError(f"TreasuryDirect: името {f!r} не носи дата") from e
+
+
+def parse_td_auctions(rows: list[dict], since: str) -> list[dict]:
+    """Суровите редове на TD → нормализираните аукциони на радара (desc по дата).
+
+    Пропуска: обявени, още без резултат (няма R_-файл); без bid-to-cover; техническите
+    оферти под 1 млрд. Полетата и числата са тези, които fetch_auctions_fiscaldata връща."""
+    out = []
+    for x in rows:
+        st = x.get("securityType")
+        if st not in _TD_COUPON_SECURITY_TYPES:
+            continue
+        d = td_auction_date(x)
+        if d is None or d < since:
+            continue
+        btc = td_num(x.get("bidToCoverRatio"))
+        if btc is None:
+            continue
+        off = td_num(x.get("offeringAmount"))
+        if off is not None and off < _TD_MIN_OFFERING:
+            continue
+        pd_ = td_num(x.get("primaryDealersCompetitiveParAwarded"))
+        tot = td_num(x.get("grandTotalParAwarded"))
+        out.append({
+            "auction_date": d,
+            "cusip": x.get("cusip"),
+            "security_type": st,
+            "term": x.get("securityTerm"),
+            "orig_term": x.get("originalSecurityTerm") or x.get("securityTerm"),
+            "bid_to_cover": btc,
+            "primary_dealer_share": (pd_ / tot) if pd_ is not None and tot else None,
+        })
+    out.sort(key=lambda a: (a["auction_date"], a["cusip"] or ""), reverse=True)
+    return out
+
+
+def fetch_auctions(*, base: str, path: str, since: str,
+                   types: tuple[str, ...] | list[str] = TD_AUCTION_TYPES,
+                   timeout: int = 180) -> list[dict]:
+    """Купонните аукциони с резултат от `since`, от TreasuryDirect, нормализирани.
+
+    TD връща цялата история на типа в един отговор (без страници). Пазачът: всеки тип
+    трябва да е непразен списък с очакваните полета, иначе FetchError, не тиха празнота."""
+    rows: list[dict] = []
+    for t in types:
+        q = urllib.parse.urlencode({"format": "json", "type": t})
+        doc = http_get_json(f"{base}{path}?{q}", timeout=timeout)
+        if not isinstance(doc, list) or not doc:
+            raise FetchError(f"TreasuryDirect:{t} празен/неочакван отговор "
+                             f"({type(doc).__name__})")
+        assert_keys(doc[0], list(_TD_REQUIRED), f"TreasuryDirect:{t}")
+        rows.extend(doc)
+    return parse_td_auctions(rows, since)
+
+
+# --------------------------------------------------------------------------- #
+# Fiscal Data, старият източник на лампа 4 (до 27.11.2026). Остава за калибровката
+# (calibration/lamp4_*.py) и за сверката с TD; живият пуск НЕ го вика.
+# --------------------------------------------------------------------------- #
+FISCALDATA_BASE = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service"
+FISCALDATA_AUCTIONS = "/v1/accounting/od/auctions_query"
+
+
+def fetch_auctions_fiscaldata(*, since: str, base: str = FISCALDATA_BASE,
+                              path: str = FISCALDATA_AUCTIONS, page_size: int = 1000,
+                              max_pages: int = 50) -> list[dict]:
     """Settled аукциони от `since` (bid_to_cover не-null), нормализирани.
 
     ПРОЛЕТР2 (25.11.2026): тегли ЦЕЛИЯ прозорец, страница по страница по `meta.total-pages`.
@@ -79,7 +186,7 @@ def fetch_auctions(*, base: str, path: str, since: str, page_size: int = 1000,
     page = 1
     while True:
         q = urllib.parse.urlencode({
-            "fields": "auction_date,security_type,security_term,original_security_term,"
+            "fields": "auction_date,cusip,security_type,security_term,original_security_term,"
                       "bid_to_cover_ratio,primary_dealer_accepted,total_accepted",
             "filter": f"auction_date:gte:{since}",
             "sort": "-auction_date",
@@ -113,6 +220,7 @@ def fetch_auctions(*, base: str, path: str, since: str, page_size: int = 1000,
             pd_share = None
         out.append({
             "auction_date": d.get("auction_date"),
+            "cusip": d.get("cusip"),
             "security_type": d.get("security_type"),
             "term": d.get("security_term"),
             "orig_term": d.get("original_security_term"),  # събира reopening-ите в тенора

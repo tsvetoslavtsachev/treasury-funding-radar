@@ -10,7 +10,8 @@ r"""Дописване назад на историята на лампите (�
              H.8 (петък 21:15 UTC) и H.4.1 (четвъртък 21:30 UTC) излизат след вечерния
              пуск, затова се броят от следващия ден. Така ревизиите не се вмъкват назад.
   NY Fed     SOFR с effectiveDate <= d-1 (публикува се сутринта на следващия работен ден).
-  Fiscal Data аукциони с auction_date <= d-1 (реколти няма); прозорецът е 400 дни назад
+  Аукциони  (TreasuryDirect от 27.11.2026, преди Fiscal Data; същите числа, сверка
+             1754/1754) с auction_date <= d-1 (реколти няма); прозорецът е 400 дни назад
              от d, целият (от 25.11.2026 живият пуск тегли всички страници; до тогава
              беше една страница от 300 реда и живите редове до 25.11 носят това рязане).
   OFR        точки с дата <= 2 работни дни преди d (реколти няма).
@@ -138,7 +139,8 @@ def fetch_all(cfg: dict, start: str, end: str) -> dict:
         raw["fred"][key] = fred_vintages(sid, fred["base"], obs_start, _minus(start, 2))
     raw["sofr"] = nyfed_sofr_hist(nyfed["base"], _minus(start, 10), end)
     raw["auctions"] = S.fetch_auctions(base=tre["base"], path=tre["auctions"],
-                                       since=_minus(start, 410), page_size=10000)
+                                       since=_minus(start, 410),
+                                       types=tre.get("auction_types", S.TD_AUCTION_TYPES))
     raw["ofr"] = S.fetch_ofr(ofr["mnemonics"]["dvp_total_volume"],
                              base=ofr["base"], path=ofr["series_timeseries"])
     raw["cftc"] = S.fetch_cftc(base=cftc["base"], dataset=cftc["dataset"],

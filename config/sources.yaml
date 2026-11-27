@@ -35,9 +35,14 @@ sources:
     srf: null
 
   treasury:
-    base: "https://api.fiscaldata.treasury.gov/services/api/fiscal_service"  # no-auth
-    # Лампа 4 — аукциони (bid-to-cover, primary dealer дял)
-    auctions: "/v1/accounting/od/auctions_query"
+    base: "https://www.treasurydirect.gov/TA_WS"      # no-auth
+    # Лампа 4: аукциони (bid-to-cover, primary dealer дял). От 27.11.2026 (ПРОЛЕТБ2)
+    # TreasuryDirect: Fiscal Data auctions_query няма резултати след 15.10.2026.
+    # type=Note|Bond дава само номиналните; TIPS и FRN са отделни типове, а Fiscal Data
+    # (и калибровката) ги броеше под Note/Bond, затова се теглят и четирите.
+    # Сверка 1754/1754 (05.2008-15.10.2026): calibration/lamp4_td_parity.py.
+    auctions: "/securities/search"
+    auction_types: ["Note", "Bond", "TIPS", "FRN"]
 
   ofr:
     base: "https://data.financialresearch.gov/v1"     # no-auth STFM

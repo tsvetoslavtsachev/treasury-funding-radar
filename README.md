@@ -12,7 +12,7 @@
 | 1 | Банково репо (Adler) | FRED `H8B3092NCBA` (H.8, W) | пробив на структурата от 13-седмични дъна |
 | 2 | Fed plumbing | FRED `WRESBAL` + `RRPONTSYD` (SRF през FRED `RPONTSYD`) | резерви vs под · ON RRP буфер · SRF usage |
 | 3 | Цена на парите | NY Fed `rates/secured/sofr` (no-auth) | SOFR−IORB ≥ 0 устойчиво · вътрешнодневна дисперсия p99−p25 (cross-sectional разсейване на repo сделките ЗА деня, не времева опашка) |
-| 4 | Аукциони (2 оси) | TreasuryDirect `auctions_query` (no-auth) | bid-to-cover z по тенор (red) · PD-дял z тенор-релативен (amber: дилърски бекстоп = другите се отдръпват) |
+| 4 | Аукциони (2 оси) | TreasuryDirect `TA_WS/securities/search`, Note/Bond/TIPS/FRN (no-auth; до 27.11.2026 Fiscal Data `auctions_query`) | bid-to-cover z по тенор (red) · PD-дял z тенор-релативен (amber: дилърски бекстоп = другите се отдръпват) |
 | 5 | Ливъридж (2 оси) | OFR STFM DVP обем + CFTC TFF `gpe5-46if` нетна къса (no-auth) | спад на repo обема ИЛИ разпад на нетната къса от зареден връх = форсиран basis unwind |
 
 **Context панел (не лампи):** TGA (FRED `WTREGEN`, канонично ТУК) · DGS10 · DGS30.
@@ -40,6 +40,12 @@
 - Лампа 4 носи една дата навсякъде: последният купонен аукцион с резултат (`as_of_kind`); над 45 дни без такъв е сива с причина.
 - Аукционите се теглят целите, страница по страница; ако събраното не е `meta.total-count`, е грешка на източника, не тихо рязане. До 25.11.2026 беше една страница от 300 реда (около 9 месеца вместо 400 дни): живите редове до тогава носят рязането, дописаните не.
 - `backfill.py` се пуска наново само когато се смени сметката на лампа; тогава дописва всички `дописан` редове със същите функции, а живите не пипа. Сверката с git: `python -m funding_radar.backfill --verify-git`.
+
+## Лампа 4 от TreasuryDirect (ПРОЛЕТБ2, 27.11.2026)
+
+- Fiscal Data `auctions_query` няма резултати след 15.10.2026 (последният купонен е от 08.10), затова лампа 4 беше сива. От 27.11.2026 тя тегли от TreasuryDirect `TA_WS/securities/search`, типовете Note, Bond, TIPS и FRN; правилото не е пипано.
+- Четецът дава същите полета и същите числа като Fiscal Data: универсумът е securityType Note/Bond (с TIPS и FRN, както беше), PD-делът е `primaryDealersCompetitiveParAwarded / grandTotalParAwarded` (= `primary_dealer_accepted / total_accepted`). Техническите оферти по 25 млн. отпадат.
+- Сверката: `python calibration/lamp4_td_parity.py` (05.2008 до 08.10.2026: 1749 общи аукциона без разминаване, 906 седмични среза на лампата с еднакъв изход; петте реда само във Fiscal Data са технически).
 
 ## Стартиране
 

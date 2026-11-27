@@ -24,8 +24,7 @@ for _s in (sys.stdout, sys.stderr):
 from funding_radar import lamps as L          # noqa: E402
 from funding_radar import sources as S         # noqa: E402
 
-A = S.fetch_auctions(base="https://api.fiscaldata.treasury.gov/services/api/fiscal_service",
-                     path="/v1/accounting/od/auctions_query", since="2014-06-01", page_size=10000)
+A = S.fetch_auctions_fiscaldata(since="2014-06-01", page_size=10000)  # калибровката е от Fiscal Data
 print(f"аукциони: n={len(A)}  {A[-1]['auction_date']} … {A[0]['auction_date']}", file=sys.stderr)
 
 
