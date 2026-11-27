@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-26T21:46:27+00:00",
+  "generated_at": "2026-11-27T21:29:59+00:00",
   "composite": {
-    "score": 1.2,
+    "score": 2.5,
     "verdict": "Леко напрежение",
     "n_active": 4,
     "null_lamps": [
       4
     ],
-    "reds": [],
-    "ambers": [
+    "reds": [
       2
     ],
+    "ambers": [],
     "low_confidence": false,
     "clusters": []
   },
@@ -21,12 +21,12 @@
       "as_of": "2026-11-18"
     },
     "dgs10": {
-      "value": 4.91,
-      "as_of": "2026-11-24"
+      "value": 4.85,
+      "as_of": "2026-11-25"
     },
     "dgs30": {
-      "value": 5.3,
-      "as_of": "2026-11-24"
+      "value": 5.24,
+      "as_of": "2026-11-25"
     }
   }
 }
