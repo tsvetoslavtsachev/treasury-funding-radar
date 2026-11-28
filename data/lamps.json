@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "version": "0.1.0",
-  "generated_at": "2026-11-27T21:29:59+00:00",
+  "generated_at": "2026-11-28T14:33:30+00:00",
   "lamps": [
     {
       "id": 1,
@@ -23,10 +23,10 @@
       "id": 2,
       "name": "Fed plumbing",
       "status": "red",
-      "value": 2.98,
-      "as_of": "2026-11-18",
+      "value": 2.964,
+      "as_of": "2026-11-25",
       "detail": {
-        "reserves_usd_tn": 2.98,
+        "reserves_usd_tn": 2.964,
         "reserves_status": "amber",
         "floor_amber_red": [
           3.0,
@@ -67,46 +67,55 @@
     {
       "id": 4,
       "name": "Аукциони (купони)",
-      "status": "null",
-      "value": -2.25,
-      "as_of": "2026-10-08",
+      "status": "green",
+      "value": -1.7,
+      "as_of": "2026-11-25",
       "detail": {
-        "worst_bid_to_cover_z": -2.25,
-        "worst_term": "7-Year",
+        "worst_bid_to_cover_z": -1.7,
+        "worst_term": "3-Year",
         "n_weak_z15": 1,
-        "n_weak_z20": 1,
+        "n_weak_z20": 0,
         "weak_tenors": [
           {
-            "tenor": "7-Year",
-            "bid_to_cover": 2.42,
-            "z": -2.25,
-            "auction_date": "2026-09-24",
-            "primary_dealer_share": 0.107607519048603,
-            "pd_share_z": 0.34
+            "tenor": "3-Year",
+            "bid_to_cover": 2.53,
+            "z": -1.7,
+            "auction_date": "2026-11-09",
+            "primary_dealer_share": 0.07839848993851962,
+            "pd_share_z": -1.04
           }
         ],
-        "n_pd_weak": 1,
-        "pd_weak_tenors": [
-          {
-            "tenor": "20-Year",
-            "bid_to_cover": 2.57,
-            "z": -0.32,
-            "auction_date": "2026-09-15",
-            "primary_dealer_share": 0.16742150462885078,
-            "pd_share_z": 2.15
-          }
-        ],
+        "n_pd_weak": 0,
+        "pd_weak_tenors": [],
         "pd_amber_fired": false,
         "n_coupon_tenors": 7,
+        "context_tenors": [
+          {
+            "tenor": "2-Year FRN",
+            "bid_to_cover": 2.87,
+            "z": -0.84,
+            "auction_date": "2026-11-24",
+            "primary_dealer_share": 0.38585524953246014,
+            "pd_share_z": 0.56,
+            "weak_z15": false,
+            "pd_weak": false
+          },
+          {
+            "tenor": "10-Year TIPS",
+            "bid_to_cover": 2.43,
+            "z": 0.42,
+            "auction_date": "2026-11-19",
+            "primary_dealer_share": 0.05440897156682717,
+            "pd_share_z": -1.91,
+            "weak_z15": false,
+            "pd_weak": false
+          }
+        ],
+        "context_note": "TIPS и FRN: само за сведение, не местят цвета",
         "rule": "red ≥2×btc_z≤−2 · amber ≥3×btc_z≤−1.5 ИЛИ ≥2 тенора PD_z≥2.0 при btc_z≤0.5",
-        "method": "купони/оригинален тенор/recency45д/z-vs-roll10; PD-дял тенор-релативен (v1.1 amber-онли, артефакти PD≥0.95 филтр.)"
+        "method": "номинални купони/оригинален тенор/recency45д/z-vs-roll10 (TIPS и FRN отделно, за сведение); PD-дял тенор-релативен (v1.1 amber-онли, артефакти PD≥0.95 филтр.)"
       },
-      "as_of_kind": "последният купонен аукцион с резултат",
-      "stale": {
-        "age_days": 50,
-        "limit_days": 45,
-        "reason": "няма купонен аукцион с резултат след 2026-10-08 (50 дни към 2026-11-27); източникът не е публикувал"
-      }
+      "as_of_kind": "последният номинален купонен аукцион с резултат"
     },
     {
       "id": 5,
@@ -156,7 +165,7 @@
       "fred:reserves": {
         "source": "fred:reserves",
         "status": "ok",
-        "as_of": "2026-11-18",
+        "as_of": "2026-11-25",
         "error": null
       },
       "fred:rpontsyd": {
@@ -168,7 +177,7 @@
       "fred:iorb": {
         "source": "fred:iorb",
         "status": "ok",
-        "as_of": "2026-11-27",
+        "as_of": "2026-11-30",
         "error": null
       },
       "fred:sofr_hist": {
@@ -180,7 +189,7 @@
       "fred:tga": {
         "source": "fred:tga",
         "status": "ok",
-        "as_of": "2026-11-18",
+        "as_of": "2026-11-25",
         "error": null
       },
       "fred:dgs10": {
@@ -204,7 +213,7 @@
       "treasury:auctions": {
         "source": "treasury:auctions",
         "status": "ok",
-        "as_of": "2026-10-08",
+        "as_of": "2026-11-25",
         "error": null
       },
       "ofr:dvp": {

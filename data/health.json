@@ -16,7 +16,7 @@
     "fred:reserves": {
       "source": "fred:reserves",
       "status": "ok",
-      "as_of": "2026-11-18",
+      "as_of": "2026-11-25",
       "error": null
     },
     "fred:rpontsyd": {
@@ -28,7 +28,7 @@
     "fred:iorb": {
       "source": "fred:iorb",
       "status": "ok",
-      "as_of": "2026-11-27",
+      "as_of": "2026-11-30",
       "error": null
     },
     "fred:sofr_hist": {
@@ -40,7 +40,7 @@
     "fred:tga": {
       "source": "fred:tga",
       "status": "ok",
-      "as_of": "2026-11-18",
+      "as_of": "2026-11-25",
       "error": null
     },
     "fred:dgs10": {
@@ -64,7 +64,7 @@
     "treasury:auctions": {
       "source": "treasury:auctions",
       "status": "ok",
-      "as_of": "2026-10-08",
+      "as_of": "2026-11-25",
       "error": null
     },
     "ofr:dvp": {

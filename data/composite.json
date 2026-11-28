@@ -1,13 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-27T21:29:59+00:00",
+  "generated_at": "2026-11-28T14:33:30+00:00",
   "composite": {
-    "score": 2.5,
+    "score": 2.0,
     "verdict": "Леко напрежение",
-    "n_active": 4,
-    "null_lamps": [
-      4
-    ],
+    "n_active": 5,
+    "null_lamps": [],
     "reds": [
       2
     ],
@@ -17,8 +15,8 @@
   },
   "context": {
     "tga_usd_mn": {
-      "value": 916613.0,
-      "as_of": "2026-11-18"
+      "value": 902038.0,
+      "as_of": "2026-11-25"
     },
     "dgs10": {
       "value": 4.85,
